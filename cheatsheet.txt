@@ -1,19 +1,19 @@
 // FIRST
-const solc = require('solc')
-const Web3 = require('web3')
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+const solc = require('solc');
+const Web3 = require('web3');
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
-var balance = (acct) => { return web3.eth.getBalance(acct).then(result => { var eth = web3.utils.fromWei(result.toString(), 'ether');console.log(eth)})}
-var buyer, seller, arbiter
-web3.eth.getAccounts().then(accounts => { buyer = accounts[0]; seller = accounts[1]; arbiter = accounts[2] })
+var balance = (acct) => { return web3.eth.getBalance(acct).then(result => { var eth = web3.utils.fromWei(result.toString(), 'ether');console.log(eth)})};
+var buyer, seller, arbiter;
+web3.eth.getAccounts().then(accounts => { buyer = accounts[0]; seller = accounts[1]; arbiter = accounts[2] });
 
 
 // MANDATORY
-var source = ``
-var compiled = solc.compile(source)
-var abi = JSON.parse(compiled.contracts[':NameOfContract'].interface)
-var bytecode = compiled.contracts[':NameOfContract'].bytecode
-var NameOfContract = new web3.eth.Contract(abi)
+var source = ``;
+var compiled = solc.compile(source);
+var abi = JSON.parse(compiled.contracts[':Escrow'].interface);
+var bytecode = compiled.contracts[':Escrow'].bytecode;
+var escrowContract = new web3.eth.Contract(abi)
 
 
 // DEPLOY

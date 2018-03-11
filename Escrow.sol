@@ -91,6 +91,7 @@ web3.eth.getAccounts().then(accounts => { buyer = accounts[0]; seller = accounts
 1:25p Need to send Ether to the Contact upon creation, in the 'value' field
 // with 'value'....
 // WORKS !!!!!!!!!!!
+// first check balances...
 
 var deployedContract
 var five = 5
@@ -109,7 +110,13 @@ escrowContract.deploy({
     console.log('=== newContractInstance address ===', newContractInstance.options.address)
 })
 
+// or do get contract by transaction Hash...
+
+
+// WORKS !!!!!!!......but try with the condition if (msg.sender === buyer) .....
+deployedContract.methods.payoutToSeller().send({from: buyer})
+
+
 */
 
 web3.utils.toWei(five.toString(), 'ether') is 5000000000000000000
-
