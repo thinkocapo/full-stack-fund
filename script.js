@@ -11,6 +11,7 @@ global.fs = require("fs");
 // bytecode: bytecode,
 // abi: abi,
 // contract: contract
+// gasEstimate: gasEstimate
 // })
     
 /*
@@ -27,23 +28,15 @@ class Methods {
         var re2 = /\s\w+\s/
         return source.match(re1).pop().match(re2)[0].trim()
     }
+
     async createContract(source, options={}) {
         var compiled = solc.compile(source)
         var contractName = this.contractName(source)
         var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"] // needs uppercase?
         var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
-
         var contract = new global.web3.eth.Contract(abi)
-
-        // v0.2.x
-        // var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
-        // v1.x.x
         var gasEstimate = await global.web3.eth.estimateGas({ data: bytecode })
-            .then(result => { return result });
-        console.log('gasEstimate', gasEstimate)
-
-
-        return
+    
         // var deployed = contract.new(Object.assign({
         //   from: global.web3.eth.accounts[0],
         //   data: bytecode,
@@ -63,7 +56,7 @@ class Methods {
             console.log('receipt.contractAddress', receipt.contractAddress)
         }).on('confirmation', function(confirmationNumber, receipt){ }).then(function(newContractInstance){
             deployed = newContractInstance
-            console.log('=== newContractInstance address ===', newContractInstance.options.address)
+            console.log('=== deployed._address ===', deployed._address)
             return deployed
         })
       }
