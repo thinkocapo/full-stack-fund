@@ -17,6 +17,7 @@ contract Flipper {
             currentState = GameState.wagerAccepted;
             return true;
         }
+
         return false;
     }
 }

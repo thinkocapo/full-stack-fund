@@ -27,3 +27,20 @@ contract Lottery {
     }
 
 }
+/*
+    function payoutToSeller() {
+        if (msg.sender == buyer || msg.sender == arbiter) {
+            seller.send(this.balance);
+        }
+    }
+
+    function refundToBuyer() {
+        if (msg.sender == seller || msg.sender == arbiter) {
+            buyer.send(this.balance);
+        }
+    }
+
+    function getBalance() constant returns (uint) {
+        return this.balance;
+    }
+    */
