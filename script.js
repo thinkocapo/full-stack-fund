@@ -1,20 +1,25 @@
+require("babel-register");
+require("babel-polyfill");
 global.Web3 = require("web3")
 global.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 global.solc = require('solc');
 global.fs = require("fs");
 
-// var deployed = methods.deployContract("flipper")
 // console.log('RESULTS\n', {
-    // compiled: compiled,
-    // contractNae: contractName,
-    // bytecode: bytecode,
-    // abi: abi,
-    // contract: contract
+// compiled: compiled,
+// contractNae: contractName,
+// bytecode: bytecode,
+// abi: abi,
+// contract: contract
 // })
-
+    
+/*
+var deployed = methods.deployContract("flipper")
+*/
 class Methods {
-    constructor() {
+    constructor(global) {
         this.property = 'value'
+        // this.global = global
     }
     
     contractName(source) {
@@ -22,20 +27,19 @@ class Methods {
         var re2 = /\s\w+\s/
         return source.match(re1).pop().match(re2)[0].trim()
     }
-    createContract(source, options={}) {
+    async createContract(source, options={}) {
         var compiled = solc.compile(source)
         var contractName = this.contractName(source)
         var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"] // needs uppercase?
         var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
 
         var contract = new global.web3.eth.Contract(abi)
-        
+
+        // v0.2.x
         // var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
-        var gasEstimate = await web3.eth.estimateGas({
-            to: "0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe",
-            data: "0xc6888fa10000000000000000000000000000000000000000000000000000000000000003"
-        })
-        // .then(result => { return result });
+        // v1.x.x
+        var gasEstimate = await global.web3.eth.estimateGas({ data: bytecode })
+            .then(result => { return result });
         console.log('gasEstimate', gasEstimate)
 
 
@@ -73,7 +77,7 @@ class Methods {
       }
 
 }
-global.methods = new Methods()
+global.methods = new Methods(global)
 
 global.balance = (acct) => { return web3.eth.getBalance(acct).then(result => { var eth = web3.utils.fromWei(result.toString(), 'ether');console.log(eth)})};
 global.web3.eth.getAccounts().then(accounts => { 
