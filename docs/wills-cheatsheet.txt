@@ -1,3 +1,5 @@
+ganache-cli testrpc
+
 // FIRST
 const solc = require('solc');
 const Web3 = require('web3');
