@@ -1,0 +1,93 @@
+
+// If you declare buyer as public, it will auto create accessor method getBuyerAddress
+// Constructor runs once upon creation of the contract and not again
+
+// web3.eth.getAccounts().then(result => { buyer = result[0]; seller = result[1]; arbiter = result[2] })
+
+// compiled.contracts.Escrow = compiled.contracts[':Escrow']
+
+// ABI has the Getter functions
+
+// WORKS!!!! (but better one with more methods, below, for sending Value eth to as well)
+/*
+let contractInstance
+escrowContract.deploy({
+    data: bytecode,
+    arguments: [seller, arbiter]
+}).send({
+    from: buyer,
+    gas: 4700000,
+    gasPrice: 5
+}, function(error, transactionHash){ console.log('transactionHash:', transactionHash) }).on('error', function(error){  }).on('transactionHash', function(transactionHash){ console.log('transactionHash', transactionHash) }).on('receipt', function(receipt){
+   console.log('receipt.contractAddress', receipt.contractAddress)
+}).on('confirmation', function(confirmationNumber, receipt){ }).then(function(newContractInstance){
+    contractInstance = newContractInstance
+    console.log('=== newContractInstance address ===', newContractInstance.options.address)
+})
+> transactionHash: 0x442988b577cc428155992099b5620a5fdd66679e9e1920ad3ac365986b22be3f
+transactionHash 0x442988b577cc428155992099b5620a5fdd66679e9e1920ad3ac365986b22be3f
+receipt.contractAddress 0x6Bd643b2261c333cc04f747180f30a8635EcEbf1
+=== newContractInstance address === 0x6Bd643b2261c333cc04f747180f30a8635EcEbf1
+
+> contractInstance._address
+'0x6Bd643b2261c333cc04f747180f30a8635EcEbf1'
+
+^^not contractInstance.address
+
+'contractInstance' is the 'deployed' var in the video
+
+> contractInstance.methods.seller().call().then(console.log)
+> contractInstance.methods.arbiter().call().then(console.log)
+> contractInstance.methods.buyer().call().then(console.log)
+> 0xFCcbc2255A357cA59762eB52D46e22FbBC354c2a
+*/
+
+
+/*
+Reminder - a Contract Address can have a balance too
+
+// works, had to NOT use the .toNumber() on variable 'eth' at the end...
+var balance = (acct) => { return web3.eth.getBalance(acct).then(result => { var eth = web3.utils.fromWei(result.toString(), 'ether');console.log(eth)})}
+*/
+
+/*
+// payout the balance of the escrow contract (the CA account addres's balance?) to the seller. (buyer must send to it first?)
+// payoutToSeller() anyone can call this, so use if(msg.sender == buyer...)
+// this.balance is balance of the Contract
+
+var buyer, seller, arbiter
+web3.eth.getAccounts().then(accounts => { buyer = accounts[0]; seller = accounts[1]; arbiter = accounts[2] })
+
+
+1:25p Need to send Ether to the Contact upon creation, in the 'value' field
+// with 'value'....
+// WORKS !!!!!!!!!!!
+// first check balances...
+
+var deployedContract
+var five = 5
+escrowContract.deploy({
+    data: bytecode,
+    arguments: [seller, arbiter],
+}).send({
+    value:  5000000000000000000,
+    from: buyer,
+    gas: 4700000,
+    gasPrice: 5
+}, function(error, transactionHash){ console.log('transactionHash:', transactionHash) }).on('error', function(error){  }).on('transactionHash', function(transactionHash){ console.log('transactionHash', transactionHash) }).on('receipt', function(receipt){
+   console.log('receipt.contractAddress', receipt.contractAddress)
+}).on('confirmation', function(confirmationNumber, receipt){ }).then(function(newContractInstance){
+    deployedContract = newContractInstance
+    console.log('=== newContractInstance address ===', newContractInstance.options.address)
+})
+
+// or do get contract by transaction Hash...
+
+
+// WORKS !!!!!!!......but try with the condition if (msg.sender === buyer) .....
+deployedContract.methods.payoutToSeller().send({from: buyer})
+
+
+web3.utils.toWei(five.toString(), 'ether') is 5000000000000000000
+*/
+
