@@ -17,3 +17,8 @@ deployed.makeWager({from: acct1, value: web3.toWei(5, 'ether') })
 
 11:38a
 RANDOMNESS
+> web3.eth.getBlock(9)
+block hash...manipulate it to act as a random number
+
+
+

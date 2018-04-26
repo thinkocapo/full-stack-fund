@@ -29,7 +29,12 @@ contract Lottery {
     }
 
     function wagerContribution () {
+        // ...
+    }
 
+
+    function awardWinner () {
+        // change state to closed...
     }
 
 
