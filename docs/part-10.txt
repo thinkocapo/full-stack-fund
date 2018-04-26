@@ -1,0 +1,5 @@
+Coin Flipper Part 2/2
+04/25/18 9:55p
+https://www.youtube.com/watch?v=dq-gBPvDgrc&index=10&list=PLV1JDFUtrXpFh85G-Ddyy2kLSafaB9biQ
+
+'payable' for a function to accept ether (via msg.value). "function to send ether to"
