@@ -45,3 +45,8 @@ seller
 
 // POST DEPLOY
 
+
+
+// NOTES
+Smart Contracts - Ethereum Virtual Machine opcodes, similar to java bytcode or assembly. compile the higher-level lang down into evm opcodes. "compile into evm bytcode"
+Node.js console to its RPC api on :8545
