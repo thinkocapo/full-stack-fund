@@ -9,12 +9,12 @@ contract Flipper {
     }
 
     function makeWager() onlyState(GameState.noWager) returns (bool) {
-        // ...
+        
         currentState = GameState.wagerMade;
         return true;
     }
 
-    function accepteWater() onlyState(GameState.wagerMade) returns (bool) {
+    function accepteWager() onlyState(GameState.wagerMade) returns (bool) {
 
         currentState = GameState.wagerAccepted;
         return true;

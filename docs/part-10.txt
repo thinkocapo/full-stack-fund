@@ -1,0 +1,24 @@
+COIN FLIPPER PART 2/2
+04/25/18 9:55p
+https://www.youtube.com/watch?v=dq-gBPvDgrc&index=10&list=PLV1JDFUtrXpFh85G-Ddyy2kLSafaB9biQ
+
+'payable' for a function to accept ether (via msg.value). "function to send ether to"
+
+11:23a
+deployed.makeWager({from: acct1, value: web3.toWei(5, 'ether') })
+> decypher.etherBalance(deployed.address)
+5
+
+^^ so we're sending 5ether to the contract, and its also being kept track of in variable 'unit public wager'
+
+
+** so the contract accepted the ether, but the variable 'uint wager' didnt,*
+** so need THROW throw error so doesnt save any state changes
+
+11:38a
+RANDOMNESS
+> web3.eth.getBlock(9)
+block hash...manipulate it to act as a random number
+
+
+
