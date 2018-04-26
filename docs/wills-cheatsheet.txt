@@ -5,23 +5,48 @@ const solc = require('solc');
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
+// V1.0
 var balance = (acct) => { return web3.eth.getBalance(acct).then(result => { var eth = web3.utils.fromWei(result.toString(), 'ether');console.log(eth)})};
 var buyer, seller, arbiter;
 web3.eth.getAccounts().then(accounts => { buyer = accounts[0]; seller = accounts[1]; arbiter = accounts[2] });
+// V0.2
+var buyer = web3.eth.accounts[0]; var seller = web3.eth.accounts[1]; var arbiter = web3.eth.accounts[3];
+var balance = (acct) => { return web3.fromWei(web3.eth.getBalance(acct), 'ether').toNumber() }
 
 
-// MANDATORY
+// MANDATORY v1.0
 var source = ``;
 var compiled = solc.compile(source);
 var abi = JSON.parse(compiled.contracts[':Escrow'].interface);
 var bytecode = compiled.contracts[':Escrow'].bytecode;
 var escrowContract = new web3.eth.Contract(abi)
 
-
-// DEPLOY
-...
-
-
-// POST DEPLOY
+var deployed...
 deployedContract._address
 
+
+// MANDATORY v0.2
+var source = ``;
+var compiled = solc.compile(source);
+var abi = JSON.parse(compiled.contracts[':Escrow'].interface);
+var bytecode = compiled.contracts[':Escrow'].bytecode;
+var escrowContract = web3.eth.contract(abi)
+var deployed = escrowContract.new(seller, arbiter, { from: buyer, data: bytecode, gas: 4612388, gasPrice: 5 }, (error, contract) => { console.log('error\n', error); console.log('contract\n', contract)})
+deployed.address
+'0xe9b8e0c9d9acf8724fc60949f87ab134501375f9'
+
+deployed.buyer.call() // address of the buyer
+'0x124e9fea6f06061ac3e2e33839098eae2773f6fe'
+deployed.seller.call() // address of the seller
+'0x6b7b396c06cf2690b1c3f7d0d7f0d6cf9a172e6b'
+same as
+seller
+'0x6b7b396c06cf2690b1c3f7d0d7f0d6cf9a172e6b'
+
+// POST DEPLOY
+
+
+
+// NOTES
+Smart Contracts - Ethereum Virtual Machine opcodes, similar to java bytcode or assembly. compile the higher-level lang down into evm opcodes. "compile into evm bytcode"
+Node.js console to its RPC api on :8545

@@ -1,4 +1,4 @@
-
+// V1.0
 // If you declare buyer as public, it will auto create accessor method getBuyerAddress
 // Constructor runs once upon creation of the contract and not again
 
