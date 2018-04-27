@@ -15,6 +15,11 @@ contract Lottery {
     mapping(address => uint) public lotteries;
     // once closed, remove it from array? leave it as closed?
     // or have openLotteries, closedLotteries. need move between them?
+    /*
+    function kill() onlyOwner() {
+        selfdestruct(owner);
+    }
+    */
 
     // initialize with numContestants, contributionAmount
     // hard because want to check what's open, don't want to initialize new one every time...
@@ -55,6 +60,11 @@ contract Lottery {
         
         winner.send(this.balance)
         // change lottery's state to closed...
+    }
+
+    function kill() onlyOwner() {
+        // 1%
+        selfdestruct(owner);
     }
 
 
