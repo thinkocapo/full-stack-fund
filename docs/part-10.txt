@@ -20,5 +20,7 @@ RANDOMNESS
 > web3.eth.getBlock(9)
 block hash...manipulate it to act as a random number
 
+get previous block mined because current isn't done yet
 
-
+(2 ^ 256) / n
+n-sided die. /2 for coinflip, /4 for 4 contestants
