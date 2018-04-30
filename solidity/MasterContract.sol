@@ -4,8 +4,7 @@ contract Lottery {
 
     address[] public players;
 
-
-    function Lottery (uint _etherContribution, uint _maxPlayers) {
+    function Lottery (uint _etherContribution, uint _maxPlayers) payable public {
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
     }
@@ -14,7 +13,7 @@ contract Lottery {
 contract MasterContract {
     address public owner;
     Lottery[] public lotteries;
-    address public firstAddress;
+    address public newLotteryAddress;
     modifier onlyOwner() {
         if (msg.sender == owner) {
             _;
@@ -27,23 +26,28 @@ contract MasterContract {
 
     function createLottery(uint _etherContribution, uint _maxPlayers) payable public {
         Lottery newLottery = new Lottery(_etherContribution, _maxPlayers);
-        firstAddress = address(newLottery);
+        newLotteryAddress = address(newLottery);
 
         // none are working...
-        // firstAddress.send(msg.value);
-        // firstAddress.send(this.balance);
-        // firstAddress.transfer(msg.value);
+        newLotteryAddress.send(msg.value);
+        // newLotteryAddress.transfer(msg.value); // Error: VM Exception while processing transaction: revert
+        //at Object.InvalidResponse Why ?????
+        
+        // newLotteryAddress.send(this.balance);
+        // newLottery.send(msg.value);
 
 
         lotteries.push(newLottery);
+        // > deployed.getLotteries()
+        //[ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
     }
 
     function getLotteries() public view returns (Lottery[]) {
         return lotteries;
     }
 
-    function getFirstAddress() public view returns (address) {
-        return firstAddress;
+    function getNewLotterAddress() public view returns (address) {
+        return newLotteryAddress;
     }
     
 }
