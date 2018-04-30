@@ -42,8 +42,8 @@ global.config = {
         from: global.web3.eth.accounts[0],
         data: bytecode,
         gas: gasEstimate,
-        gasPrice: 5,
-        value: web3.toWei(1, 'ether')
+        gasPrice: 5
+        // value: web3.toWei(1, 'ether')
       }, options), (error, result) => { })
   
       return deployed
