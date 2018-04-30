@@ -19,3 +19,4 @@ Users can use a web app GUI to call:
 ### Software Development
 `ganache-cli testrpc`  
 `node script-v0.2.js`
+`var deployed = decypher.deployContract("MasterContract")`
