@@ -26,8 +26,10 @@ contract MasterContract {
     }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) payable public {
+    // function createLottery(address testAddress) payable public {
         Lottery newLottery = new Lottery(_etherContribution, _maxPlayers);
         firstAddress = address(newLottery);
+        // firstAddress = testAddress;
 
         // address(newLottery).send(msg.value);
         // lotteries.push(newLottery);

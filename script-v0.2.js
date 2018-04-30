@@ -79,6 +79,6 @@ global.config = {
   
   // Load Helpers into Decypher namespace
   global.decypher = new Helpers()
-  
+  global.deployed = decypher.deployContract("MasterContract")
   // Start repl
   require('repl').start({})
