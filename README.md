@@ -21,7 +21,7 @@ Users can use a web app GUI to call:
 `node script-v0.2.js`  
 
 `var deployed = decypher.deployContract("MasterContract")`  
-`deployed.createLottery.call(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`  
+`deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`  
 
 
 or  
