@@ -4,6 +4,7 @@ contract Lottery {
 
     address[] public players;
 
+
     function Lottery (uint _etherContribution, uint _maxPlayers) {
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
@@ -12,21 +13,32 @@ contract Lottery {
 
 contract MasterContract {
     address public owner;
-    Lottery[] lotteries;
+    Lottery[] public lotteries;
+    address public firstAddress;
     modifier onlyOwner() {
         if (msg.sender == owner) {
             _;
         }
     }
 
-    function MasterContract () public {
+    function MasterContract () payable public {
         owner = msg.sender;
     }
 
-    function createLottery(uint _etherContribution, uint _maxPlayers) payable {
+    function createLottery(uint _etherContribution, uint _maxPlayers) payable public {
         Lottery newLottery = new Lottery(_etherContribution, _maxPlayers);
-        address(newLottery).send(msg.value);
-        lotteries.push(newLottery);
+        firstAddress = address(newLottery);
+
+        // address(newLottery).send(msg.value);
+        // lotteries.push(newLottery);
+    }
+
+    function getLotteries() public view returns (Lottery[]) {
+        return lotteries;
+    }
+
+    function getFirstAddress() public view returns (address) {
+        return firstAddress;
     }
     
 }
