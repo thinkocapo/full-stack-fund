@@ -17,5 +17,5 @@ Users can use a web app GUI to call:
 - Getter methods for viewing what lotteries are currently open
 
 ### Software Development
-`ganache-cli testrpc`
+`ganache-cli testrpc`  
 `node script-v0.2.js`
