@@ -38,15 +38,14 @@ contract MasterContract {
 
 
         lotteries.push(newLottery);
-        // > deployed.getLotteries()
-        //[ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
     }
 
     function getLotteries() public view returns (Lottery[]) {
         return lotteries;
+        // > deployed.getLotteries()
+        //[ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
     }
-
-    function getNewLotterAddress() public view returns (address) {
+    function getNewLotteryAddress() public view returns (address) {
         return newLotteryAddress;
     }
     
