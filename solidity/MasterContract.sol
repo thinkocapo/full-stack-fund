@@ -11,7 +11,7 @@ contract Lottery {
 }
 
 contract MasterContract {
-    address owner;
+    address public owner;
     Lottery[] lotteries;
     modifier onlyOwner() {
         if (msg.sender == owner) {

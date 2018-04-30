@@ -49,7 +49,7 @@ global.config = {
     }
   
     loadContract(name) {
-      var path = `./solidity/${name.toLowerCase()}.sol`
+      var path = `./solidity/${name}.sol`
       console.log('PATH', path)
       return fs.readFileSync(path, 'utf8')
     }
