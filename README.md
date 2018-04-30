@@ -15,3 +15,7 @@ Users can use a web app GUI to call:
 ### More
 - There can be multiple different lotteries open at any given time
 - Getter methods for viewing what lotteries are currently open
+
+### Software Development
+`ganache-cli testrpc`
+`node script-v0.2.js`
