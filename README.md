@@ -22,8 +22,8 @@ Users can use a web app GUI to call:
 
 `var deployed = decypher.deployContract("MasterContract")`  
 `deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`  
-
-
+`decypher.balance(deployed.getNewLotteryAddress.call())`  
+`> 1`  
 or  
 `deployed.createLottery(1, 5, {from: acct1, value: web3.toWei(1, 'ether') })`  
 `deployed.createLottery.call(1, 5, {from: acct1, value: web3.toWei(1, 'ether') })`  
