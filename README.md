@@ -25,7 +25,7 @@ Users can use a web app GUI to call:
 `node script-v0.2.js` , deploys the contract for you, using `decypher.deployContract("MasterContract")`  
 `deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`  
 `decypher.balance(deployed.getNewLotteryAddress.call())`  
-`> 1`
+`> 1`  
 1 user deployed a new lottery, which now has a balance of 1, and is waiting for 4 more players. Use the getData() method to confirm its 5 maxPlayers
 
 #### Software Observations
