@@ -29,6 +29,7 @@ Users can use a web app GUI to call:
 1 user deployed a new lottery, which now has a balance of 1, and is waiting for 4 more players. Use the getData() method to confirm its 5 maxPlayers
 
 #### Software Observations
+- for the Master Contract to create a new contract and transfer ether to it: `Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers);`  
 - Solidity really doesn't like returning Objects or Arrays of Objects. If you return an Object (e.g. Lottery instance) it gives you the address of the object
 - can use `.createLottery.call(...)`  above and it works the same. https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-methods
 
