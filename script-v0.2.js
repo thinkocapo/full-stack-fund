@@ -60,7 +60,7 @@ global.config = {
       return this.createContract(source, options)
     }
   
-    etherBalance(contract) {
+    balance(contract) {
       switch(typeof(contract)) {
         case "object":
           if(contract.address) {

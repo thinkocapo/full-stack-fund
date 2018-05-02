@@ -4,7 +4,7 @@ contract Lottery {
 
     address[] public players;
 
-    function Lottery (uint _etherContribution, uint _maxPlayers) payable public {
+    function Lottery (uint _etherContribution, uint _maxPlayers) public payable {
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
     }
@@ -20,20 +20,23 @@ contract MasterContract {
         }
     }
 
-    function MasterContract () payable public {
+    function MasterContract () public payable {
         owner = msg.sender;
     }
 
-    function createLottery(uint _etherContribution, uint _maxPlayers) payable public {
-        Lottery newLottery = new Lottery(_etherContribution, _maxPlayers);
+    // take away payable from here?
+    function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
+        
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers);
+        // Lottery newLottery = new Lottery(_etherContribution, _maxPlayers);
         newLotteryAddress = address(newLottery);
 
         // none are working...
-        newLotteryAddress.send(msg.value);
+        // newLotteryAddress.send(msg.value);
         // newLotteryAddress.transfer(msg.value); // Error: VM Exception while processing transaction: revert
         //at Object.InvalidResponse Why ?????
         
-        // newLotteryAddress.send(this.balance);
+        // newLotteryAddress.send(this.balance); try again???
         // newLottery.send(msg.value);
 
 
