@@ -19,10 +19,10 @@ Users can use a web app GUI to call:
 ## Software Development
 
 #### How to run this app
-`https://github.com/thinkocapo/full-stack-fund.git`
-`npm install`
-`ganache-cli testrpc`
-`node script-v0.2.js` (deploys the contract for you, using `decypher.deployContract("MasterContract")`)      
+`https://github.com/thinkocapo/full-stack-fund.git`  
+`npm install`  
+`ganache-cli testrpc`  
+`node script-v0.2.js` , deploys the contract for you, using `decypher.deployContract("MasterContract")`  
 `deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`  
 `decypher.balance(deployed.getNewLotteryAddress.call())`  
 `> 1`
