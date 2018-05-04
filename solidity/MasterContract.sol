@@ -10,15 +10,15 @@ contract Lottery {
         activePlayers.push(msg.sender);
     }
 
-    ///
-    // function addActivePlayer() public payable {
-    //     if (msg.value == etherContribution) {
-    //         activePlayers.push(msg.sender);
-    //     } else {
-    //         // throw;
-    //     }
-    //     // TODO check d.balance(lotteryAddress), the ether should be there
-    // }
+    // Must use node.js to get this contract...
+    function addActivePlayer() public payable {
+        if (msg.value == etherContribution) {
+            activePlayers.push(msg.sender);
+        } else {
+            // throw;
+        }
+        // TODO check d.balance(lotteryAddress), the ether should be there
+    }
     // OR
     // function addActivePlayer(address playerAddress) public payable {
     //     activePlayers.push(playerAddress);
@@ -62,20 +62,25 @@ contract MasterContract {
     }
 
     function getLotteries() public view returns (Lottery[]) {
-        return lotteries; // returns array of addresses [ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
+        return lotteries;
     }
     function getNewLotteryAddress() public view returns (address) {
         return newLotteryAddress;
     }
-    function getLottery() public view returns (Lottery) { // pass by arg? functionality
-        return Lottery(newLotteryAddress); // returns an address, not the obj....why? solidity seems to not like returning entire objects...
-    }
+
     function getLotteryMaxPlayers() public view returns (uint) {
         Lottery lottery = Lottery(newLotteryAddress); 
         return lottery.getMaxPlayers(); // returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }
     }
     
 }
+
+// DEV OBSERVATIONS
+// function getLottery() public view returns (Lottery) {
+//     return Lottery(newLotteryAddress); // returns an address, not the obj....why? solidity seems to not like returning entire objects...
+// }
+
+// returns Lottery[]... return lotteries; // returns array of addresses [ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
 
 // 1 Master getLottery 2 addPlayer() <-- would have to pay gas twice? because two transactions?
 // 1 Master addPlayer(lotteryAddress) and Contract addPlayer(msg.sender)
