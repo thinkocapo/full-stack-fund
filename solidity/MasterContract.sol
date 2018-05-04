@@ -14,16 +14,11 @@ contract Lottery {
     function addActivePlayer() public payable {
         if (msg.value == etherContribution) {
             activePlayers.push(msg.sender);
-        } else {
+        } // else {
             // throw;
-        }
+        //}
         // TODO check d.balance(lotteryAddress), the ether should be there
     }
-    // OR
-    // function addActivePlayer(address playerAddress) public payable {
-    //     activePlayers.push(playerAddress);
-    // }
-    ///
 
     function getMaxPlayers() public view returns (uint) {
         return maxPlayers;
@@ -43,17 +38,6 @@ contract MasterContract {
     function MasterContract () public payable {
         owner = msg.sender;
     }
-
-    // * dont need this because If you already have lottery address, then don't bother going through Master Contract *
-    // function addPlayer(address lotteryAddress) public payable {
-        // lotteryAddress.activePlayers.push(msg.sender) // won't send ether to it
-        // lotteryAddress.addPlayer(msg.sender);
-        // lotteryAddress.send(msg.value);
-        // or
-        // Lottery lottery = Lottery(lotteryAddress)
-        //lottery.addActivePlayer(msg.sender);        
-        // repeat...
-    // }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
         Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers);
@@ -84,3 +68,15 @@ contract MasterContract {
 
 // 1 Master getLottery 2 addPlayer() <-- would have to pay gas twice? because two transactions?
 // 1 Master addPlayer(lotteryAddress) and Contract addPlayer(msg.sender)
+
+// HOWEVER this would allow for 1 smart contract call, instead of 2.
+// * dont need this because If you already have lottery address, then don't bother going through Master Contract *
+// function addPlayer(address lotteryAddress) public payable {
+    // lotteryAddress.activePlayers.push(msg.sender) // won't send ether to it
+    // lotteryAddress.addPlayer(msg.sender);
+    // lotteryAddress.send(msg.value);
+    // or
+    // Lottery lottery = Lottery(lotteryAddress)
+    //lottery.addActivePlayer(msg.sender);        
+    // repeat...
+// }
