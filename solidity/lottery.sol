@@ -1,71 +1,35 @@
-// If each contract instance represents a separate lottery,
-// maybe have another contract that points to all these others,
-// contracts...returning contracts
-// contracts...pointing to contracts
-
+// etherContribution is in wei
+// activePlayers.push(sender); // or should use addActivePlayer() (would need to update it)
+// owner receives fee when reward payout is made
 contract Lottery {
-    enum LotteryState {noContributions, fillingContributions, fullContributions}
-    LotteryState public currentState;
+    uint public etherContribution;
+    uint public maxPlayers;
+    address owner;
 
-    uint public numContestants;
-    uint public contributionAmount;
-    uint public seedBlockNumber; // but need new one per each lottery...
-    
+    address[] public activePlayers;
 
-    mapping(address => uint) public lotteries;
-    // once closed, remove it from array? leave it as closed?
-    // or have openLotteries, closedLotteries. need move between them?
-    /*
-    function kill() onlyOwner() {
-        selfdestruct(owner);
-    }
-    */
-
-    // initialize with numContestants, contributionAmount
-    // hard because want to check what's open, don't want to initialize new one every time...
-    function Lottery(uint _numContestants, uint _contributionAmount) {
-        currentState = LotteryState.noContributions;
-        numContestants = _numContestants;
-        contributionAmount = _contributionAmount;
+    function Lottery (uint _etherContribution, uint _maxPlayers, address sender, address _owner) public payable {
+        etherContribution = _etherContribution;
+        maxPlayers = _maxPlayers;
+        activePlayers.push(sender);
+        owner = _owner;
     }
 
-    function createLottery (uint _numContestants, uint _contributionAmount) {
-        // msg.sender, msg.value
-        wager = msg.value;
-        player1 = msg.sender;
-        seedBlockNumber = block.number;
-
-
-        // If no open lottery  for _numContestants, _contributionAmount
-            // create lottery ...
-            // mapping of lotteries?
-
-        // Else
-            // update open lottery instance with +1 contestants and +1 unit of contribution amount
-            // i.e. contributeAmount() / wagerContribution() / addEther()
-
-        // throw (dont save any state transitions)
+    function addActivePlayer() public payable {
+        if (msg.value == etherContribution) {
+            activePlayers.push(msg.sender);
+        }
     }
-
-    function wagerContribution () {
-        // ...
+    function getActivePlayers() public view returns (address[]) {
+        return activePlayers;
     }
-
-
-    function awardWinner (uint numberOfContestants) {
-        uint256 blockValue = uint256(block.blockhash(seedBlockNumber));
-        uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
-        uint256 coinFlip = uint256(uint256(blockValue) / FACTOR);
-        
-        
-        winner.send(this.balance)
-        // change lottery's state to closed...
+    function getEtherContribution() public view returns (uint) {
+        return etherContribution;
     }
-
-    function kill() onlyOwner() {
-        // 1%
-        selfdestruct(owner);
+    function getMaxPlayers() public view returns (uint) {
+        return maxPlayers;
     }
-
-
+    function getOwner() public view returns (address) {
+        return owner;
+    }
 }
