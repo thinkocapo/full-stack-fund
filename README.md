@@ -70,4 +70,11 @@ function Lottery (uint _etherContribution, uint _maxPlayers, address sender) pub
         activePlayers.push(sender); // is address of msg.sender in MasterContract.createLottery function
 }
 ```
-
+- difference between
+```
+var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+```
+and
+```
+var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
+```
