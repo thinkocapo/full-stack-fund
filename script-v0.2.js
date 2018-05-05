@@ -60,8 +60,7 @@ global.config = {
     getContract(contractFileName, contractName, address) { // contractFileName:'MasterContract' contractName:'Lottery'
       var source = this.loadContract(contractFileName)
       var compiled = solc.compile(source)
-      // var contractName = this.contractName(source)
-      console.log("\n ========== compiled =============\n", compiled)
+      // console.log("\n ========== compiled =============\n", compiled)
       var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
       var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
       var Contract = global.web3.eth.contract(abi)
@@ -94,6 +93,7 @@ global.config = {
   // Load Helpers into Decypher namespace
   global.decypher = new Helpers()
   global.deployed = decypher.deployContract("MasterContract")
+  console.log(`run this:`)
   console.log(`deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
   // Start repl
   require('repl').start({})

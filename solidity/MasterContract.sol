@@ -20,6 +20,9 @@ contract Lottery {
         // TODO check d.balance(lotteryAddress), the ether should be there
     }
 
+    function getActivePlayers() public view returns (address[]) {
+        return activePlayers;
+    }
     function getMaxPlayers() public view returns (uint) {
         return maxPlayers;
     }
