@@ -45,12 +45,8 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 #### Solidity Gotchas
 - Solidity really doesn't like returning Objects or Arrays of Objects. If you return an Object (e.g. Lottery instance) it gives you the address of the object
 - can use `.createLottery.call(...)`  above and it works the same. https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-methods
-- The following doesn't work, because `msg.sender` is the address of MasterContract, which is the contract calling this Lottery Constructor.
+- The following doesn't work, because `msg.sender` is the address of MasterContract, which is the contract calling this Lottery Constructor via `createContract` (a Master Contract method)
 MasterContract...
-```function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);
-```
-...
 ```
 function Lottery (uint _etherContribution, uint _maxPlayers) public payable {
         etherContribution = _etherContribution; // etherPerPlayer
