@@ -33,18 +33,15 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 > const lotteryContract = decypher.getContract('MasterContract', 'Lottery', lotteryAddress)
 
 > lotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })
-// or
-> lotteryContract.addActivePlayer(acct2, {from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })
-
 > lotteryContract.getActivePlayers()
-[ '0x13e07e8da9d42304eacddc410590e6288a51e84b' ] // TODO - should be 2 addresses. 0x13... unknown address
+[ '0x13e07e8da9d42304eacddc410590e6288a51e84b', '0xcd6f76e660a8d940ecc7d1f8b568468826a1f9d8' ]
 > decypher.balance(acct2)
-98.99999999999989 // GOOD
+98.99999999999989
 > decypher.balance(lotteryAddress)
-2 // GOOD
+2
 
 ```
-1 user deployed a new lottery, which now has a balance of 1, and is waiting for 4 more players. Use the getData() method to confirm its 5 maxPlayers
+^^ 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. It needs 3 more players before payout is made, and house collects its fee.
 
 ### Solidity Gotchas
 - If sending ether to a new contract, and you're creating that contract via Solidity constructor invocation, syntax:
