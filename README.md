@@ -42,10 +42,17 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 ```
 1 user deployed a new lottery, which now has a balance of 1, and is waiting for 4 more players. Use the getData() method to confirm its 5 maxPlayers
 
-#### Solidity Gotchas
+### Solidity Gotchas
 - If sending ether to a new contract, and you're creating that contract via Solidity constructor invocation, syntax:
 `Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);`
-- Solidity doesn't like returning Objects or Arrays of Objects. If you return an Object (e.g. Lottery instance) it gives you the address of the object
+- Solidity doesn't like returning Objects or Arrays of Objects. If you return an Object (e.g. Lottery instance) it gives you the address of the object. Examples:
+```
+function getLottery() public view returns (Lottery) {
+     return Lottery(newLotteryAddress); // returns an address, not the Lottery instance object
+}
+// and
+return Lottery[] // returns array of addresses [ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
+```
 - can use `.createLottery.call(...)`  above and it works the same. https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-methods
 - The following doesn't work, because `msg.sender` is the address of MasterContract, which is the contract calling this Lottery Constructor via `createContract` (a Master Contract method)
 MasterContract...
