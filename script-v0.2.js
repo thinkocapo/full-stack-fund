@@ -54,6 +54,19 @@ global.config = {
       console.log('PATH', path)
       return fs.readFileSync(path, 'utf8')
     }
+
+    // TODO - need get the Lottery.sol Lottery Contract and not Lottery+Master in MasterContract.sol
+    // [`:${contractName}`] should ensure you get the Lottery one
+    getContract(contractFileName, contractName, address) { // contractFileName:'MasterContract' contractName:'Lottery'
+      var source = this.loadContract(contractFileName)
+      var compiled = solc.compile(source)
+      // console.log("\n ========== compiled =============\n", compiled)
+      var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
+      var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
+      var Contract = global.web3.eth.contract(abi)
+      var contract = Contract.at(address)
+      return contract
+    }
   
     deployContract(name, options={}) {
       var source = this.loadContract(name)
@@ -80,6 +93,13 @@ global.config = {
   // Load Helpers into Decypher namespace
   global.decypher = new Helpers()
   global.deployed = decypher.deployContract("MasterContract")
-  
+  console.log(`* Contract was deployed and is available as 'deployed' object. Run these commands *`)
+  console.log(`deployed.createLottery(web3.toWei(1, 'ether'), 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
+  console.log(`const lotteryAddress = deployed.getNewLotteryAddress.call();`)
+  console.log(`const lotteryContract = decypher.getContract('MasterContract', 'Lottery', lotteryAddress);`)
+  console.log(`lotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') });`)
+  console.log('* CHECK EVERYTHING WORKED *')
+  console.log(`lotteryContract.getActivePlayers();`)
+  console.log(`decypher.balance(lotteryAddress);`)
   // Start repl
   require('repl').start({})
