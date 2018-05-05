@@ -71,10 +71,14 @@ function Lottery (uint _etherContribution, uint _maxPlayers, address sender) pub
 }
 ```
 - difference between
+[Gist - Compile Multiple Contracts for abi/bytecode](https://gist.github.com/inovizz/1fdc2af0182584b90008e0cf2895554c) so 1 contract can `import` the other
 ```
 var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+// .contracts has multiple contracts
 ```
 and
+For when contracts are all in the same .sol file.
 ```
 var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
+// .contracts has 1 contract in it
 ```
