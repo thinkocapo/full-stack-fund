@@ -1,27 +1,27 @@
 contract Lottery {
     uint public etherContribution;
     uint public maxPlayers;
+    //address owner; // intentionally dont use
 
     address[] public activePlayers;
 
     function Lottery (uint _etherContribution, uint _maxPlayers, address sender) public payable {
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
-        activePlayers.push(sender);
+        activePlayers.push(sender); // or should use addActivePlayer()
+        // owner = sender // owner, is who house fee goes to when reward is issued? its not the winner, because winner isn't known yet
+        // if its for house fee, then it wouldn't be sender. house fee address ought come from MasterContract?
     }
 
-    // Must use node.js to get this contract...
     function addActivePlayer() public payable {
-        if (msg.value == etherContribution) {
-            activePlayers.push(msg.sender);
-        } // else {
-            // throw;
-        //}
-        // TODO check d.balance(lotteryAddress), the ether should be there
+        activePlayers.push(msg.sender);
+        // if (msg.value == etherContribution) { // TODO - Not Working
+            // activePlayers.push(msg.sender);
+        // }
     }
 
-    function getActivePlayers() public view returns (address) {
-        return activePlayers[0];
+    function getActivePlayers() public view returns (address[]) {
+        return activePlayers;
     }
     function getMaxPlayers() public view returns (uint) {
         return maxPlayers;
@@ -37,7 +37,7 @@ contract MasterContract {
             _;
         }
     }
-    // DELEGATECALL
+    
     function MasterContract () public payable {
         owner = msg.sender;
     }

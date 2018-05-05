@@ -97,5 +97,6 @@ global.config = {
   console.log(`deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
   console.log(`const lotteryAddress = deployed.getNewLotteryAddress.call()`)
   console.log(`const lotteryContract = decypher.getContract('MasterContract', 'Lottery', lotteryAddress)`)
+  console.log(`lotteryContract.addActivePlayer(acct, {from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
   // Start repl
   require('repl').start({})
