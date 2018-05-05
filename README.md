@@ -31,7 +31,13 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 0
 > const lotteryAddress = deployed.getNewLotteryAddress.call()
 > const lotteryContract = decypher.getContract('MasterContract', 'Lottery', lotteryAddress)
-> lotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') }) ??
+> lotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })
+> lotteryContract.getActivePlayers()
+[ '0x13e07e8da9d42304eacddc410590e6288a51e84b' ] // TODO - should be 2 addresses. 0x13... unknown address
+> decypher.balance(acct2)
+98.99999999999989 // GOOD
+> decypher.balance(lotteryAddress)
+2 // GOOD
 
 ```
 1 user deployed a new lottery, which now has a balance of 1, and is waiting for 4 more players. Use the getData() method to confirm its 5 maxPlayers
