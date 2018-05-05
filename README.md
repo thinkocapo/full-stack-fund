@@ -29,7 +29,8 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 1
 > decypher.balance(deployed)
 0
-> const lotteryContract = decypher.getContract('MasterContract', 'Lottery', '0xf77ec2db2a70b60530757ed1ecf237d6ad2a5221790671dd42570cd7e92f6c80')
+> const lotteryAddress = deployed.getNewLotteryAddress.call()
+> const lotteryContract = decypher.getContract('MasterContract', 'Lottery', lotteryAddress)
 ```
 1 user deployed a new lottery, which now has a balance of 1, and is waiting for 4 more players. Use the getData() method to confirm its 5 maxPlayers
 
