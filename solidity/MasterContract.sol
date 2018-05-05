@@ -4,10 +4,10 @@ contract Lottery {
 
     address[] public activePlayers;
 
-    function Lottery (uint _etherContribution, uint _maxPlayers) public payable {
-        etherContribution = _etherContribution; // etherPerPlayer
+    function Lottery (uint _etherContribution, uint _maxPlayers, address sender) public payable {
+        etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
-        activePlayers.push(msg.sender);
+        activePlayers.push(sender);
     }
 
     // Must use node.js to get this contract...
@@ -20,8 +20,8 @@ contract Lottery {
         // TODO check d.balance(lotteryAddress), the ether should be there
     }
 
-    function getActivePlayers() public view returns (address[]) {
-        return activePlayers;
+    function getActivePlayers() public view returns (address) {
+        return activePlayers[0];
     }
     function getMaxPlayers() public view returns (uint) {
         return maxPlayers;
@@ -43,7 +43,7 @@ contract MasterContract {
     }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers);
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }
@@ -63,12 +63,6 @@ contract MasterContract {
 }
 
 // DEV OBSERVATIONS
-// function getLottery() public view returns (Lottery) {
-//     return Lottery(newLotteryAddress); // returns an address, not the obj....why? solidity seems to not like returning entire objects...
-// }
-
-// returns Lottery[]... return lotteries; // returns array of addresses [ '0xa48bd859d59d451c700c19dda6c36e3e9e0d1dec' ]
-
 // 1 Master getLottery 2 addPlayer() <-- would have to pay gas twice? because two transactions?
 // 1 Master addPlayer(lotteryAddress) and Contract addPlayer(msg.sender)
 

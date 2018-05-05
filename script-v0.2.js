@@ -93,7 +93,9 @@ global.config = {
   // Load Helpers into Decypher namespace
   global.decypher = new Helpers()
   global.deployed = decypher.deployContract("MasterContract")
-  console.log(`run this:`)
+  console.log(`* Contract was deployed and is available as 'deployed' object. Run these commands *`)
   console.log(`deployed.createLottery(1, 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
+  console.log(`const lotteryAddress = deployed.getNewLotteryAddress.call()`)
+  console.log(`const lotteryContract = decypher.getContract('MasterContract', 'Lottery', lotteryAddress)`)
   // Start repl
   require('repl').start({})
