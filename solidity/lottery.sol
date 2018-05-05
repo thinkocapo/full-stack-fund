@@ -1,7 +1,8 @@
+pragma solidity ^0.4.0;
+
 // etherContribution is in wei
 // activePlayers.push(sender); // or should use addActivePlayer() (would need to update it)
 // owner receives fee when reward payout is made
-pragma solidity ^0.4.0;
 contract Lottery {
     uint public etherContribution;
     uint public maxPlayers;
