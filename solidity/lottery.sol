@@ -17,19 +17,21 @@ contract Lottery {
         owner = _owner;
     }
 
+    // owner.transfer(this.balance); // wrong program flow but worked
     function addActivePlayer() public payable {
         if (msg.value == etherContribution) {
             activePlayers.push(msg.sender);
         }
         if (activePlayers.length == maxPlayers) {
-            // uint fee = 1 % of balance
+            // uint fee = 1 % of this.balance
+
             // owner.transfer(fee)
+
             // address winner = randomWinner()
             // winner.transfer(this.balance)
             
-            // owner.transfer(this.balance); // wrong program flow but worked
         }
-        // kill(); // selfdestruct();
+        // kill(); // selfdestruct(); remove from MasterContract.lotteries[]
     }
 
     function randomWinner() public view returns (address) {
