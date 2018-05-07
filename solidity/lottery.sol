@@ -21,9 +21,9 @@ contract Lottery {
         if (msg.value == etherContribution) {
             activePlayers.push(msg.sender);
         }
-        // if (activePlayers.length == maxPlayers) {
-            // owner.transfer(this.balance);
-        // }
+        if (activePlayers.length == maxPlayers) {
+            owner.transfer(this.balance);
+        }
         // kill();
         // selfdestruct();
     }
