@@ -39,7 +39,7 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 > decypher.balance(lotteryAddress)
 2
 ```
-^^ 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. It needs 3 more players before payout is made, and house collects its fee.
+^^ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. It needs 3 more players before payout is made, and house collects its fee.
 
 ### Solidity Gotchas
 - If sending ether to a new contract, and you're creating that contract via Solidity constructor invocation, syntax:
