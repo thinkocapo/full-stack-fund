@@ -4,7 +4,7 @@ import "./Lottery.sol";
 // Need function for updating owner to new owner, only callable by the current owner
 // getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }
 contract MasterContract {
-    // address public owner;
+    address public owner;
     Lottery[] public lotteries;
     address public newLotteryAddress;
     // modifier onlyOwner() {
@@ -14,7 +14,7 @@ contract MasterContract {
     // }
     
     function MasterContract () public payable {
-        // owner = msg.sender;
+        owner = msg.sender;
     }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
@@ -34,6 +34,9 @@ contract MasterContract {
     function getLotteryMaxPlayers() public view returns (uint) {
         Lottery lottery = Lottery(newLotteryAddress); 
         return lottery.getMaxPlayers();
+    }
+    function getOwner() public view returns (address){
+        return owner;
     }
 }
 
