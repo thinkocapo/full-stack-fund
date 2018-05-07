@@ -11,7 +11,7 @@ contract Lottery {
     address[] public activePlayers;
 
     function Lottery (uint _etherContribution, uint _maxPlayers, address sender, address _owner) public payable {
-        etherContribution = _etherContribution;
+        etherContribution = _etherContribution; // * msg.value
         maxPlayers = _maxPlayers;
         activePlayers.push(sender);
         owner = _owner;
@@ -22,10 +22,19 @@ contract Lottery {
             activePlayers.push(msg.sender);
         }
         if (activePlayers.length == maxPlayers) {
-            owner.transfer(this.balance);
+            // uint fee = 1 % of balance
+            // owner.transfer(fee)
+            // address winner = randomWinner()
+            // winner.transfer(this.balance)
+            
+            // owner.transfer(this.balance); // wrong program flow but worked
         }
-        // kill();
-        // selfdestruct();
+        // kill(); // selfdestruct();
+    }
+
+    function randomWinner() public view returns (address) {
+        // Oracle to generate random number
+        return;
     }
     function getActivePlayers() public view returns (address[]) {
         return activePlayers;

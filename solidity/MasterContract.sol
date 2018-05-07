@@ -2,16 +2,16 @@ pragma solidity ^0.4.0;
 import "./Lottery.sol";
 
 // Need function for updating owner to new owner, only callable by the current owner
+// modifier onlyOwner() {
+//     if (msg.sender == owner) {
+//         _;
+//     }
+// }
 // getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }
 contract MasterContract {
     address public owner;
     Lottery[] public lotteries;
     address public newLotteryAddress;
-    // modifier onlyOwner() {
-    //     if (msg.sender == owner) {
-    //         _;
-    //     }
-    // }
     
     function MasterContract () public payable {
         owner = msg.sender;
@@ -20,6 +20,7 @@ contract MasterContract {
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
         // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery
         // otherwise, continue below...
+        // * don't need _etherContribution, use msg.value instead
         Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender, owner);
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
