@@ -4,23 +4,23 @@ import "./Lottery.sol";
 // Need function for updating owner to new owner, only callable by the current owner
 // getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }
 contract MasterContract {
-    address public owner;
+    // address public owner;
     Lottery[] public lotteries;
     address public newLotteryAddress;
-    modifier onlyOwner() {
-        if (msg.sender == owner) {
-            _;
-        }
-    }
+    // modifier onlyOwner() {
+    //     if (msg.sender == owner) {
+    //         _;
+    //     }
+    // }
     
     function MasterContract () public payable {
-        owner = msg.sender;
+        // owner = msg.sender;
     }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
         // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery
         // otherwise, continue below...
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender, owner);
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }

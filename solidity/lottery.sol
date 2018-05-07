@@ -6,21 +6,26 @@ pragma solidity ^0.4.0;
 contract Lottery {
     uint public etherContribution;
     uint public maxPlayers;
-    address owner;
+    // address owner;
 
     address[] public activePlayers;
 
-    function Lottery (uint _etherContribution, uint _maxPlayers, address sender, address _owner) public payable {
+    function Lottery (uint _etherContribution, uint _maxPlayers, address sender) public payable {
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
         activePlayers.push(sender);
-        owner = _owner;
+        // owner = _owner;
     }
 
     function addActivePlayer() public payable {
         if (msg.value == etherContribution) {
             activePlayers.push(msg.sender);
         }
+        // if (activePlayers.length == maxPlayers) {
+            // owner.transfer(this.balance);
+        // }
+        // kill();
+        // selfdestruct();
     }
     function getActivePlayers() public view returns (address[]) {
         return activePlayers;
@@ -31,7 +36,7 @@ contract Lottery {
     function getMaxPlayers() public view returns (uint) {
         return maxPlayers;
     }
-    function getOwner() public view returns (address) {
-        return owner;
-    }
+    // function getOwner() public view returns (address) {
+    //     return owner;
+    // }
 }
