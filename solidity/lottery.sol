@@ -34,7 +34,8 @@ contract Lottery {
 
     function randomWinner() public view returns (address) {
         // Oracle to generate random number
-        return;
+        uint index = 1;
+        return activePlayers[index];
     }
     function getActivePlayers() public view returns (address[]) {
         return activePlayers;
