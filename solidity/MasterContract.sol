@@ -20,7 +20,7 @@ contract MasterContract {
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
         // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery
         // otherwise, continue below...
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender, owner);
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }
