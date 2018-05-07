@@ -139,16 +139,18 @@ global.config = {
   // global.master = decypher.deployContractOLD("MasterContract")
   global.master = decypher.deployContracts() // does abi/bytecodes and deploys MasterContract
   
-  console.log(`* Contract was deployed and is available as 'master' object. Run these commands *`)
+  console.log(`* Contract was deployed and is available as 'master' object. Run these commands *\n`)
   
   console.log(`master.createLottery(web3.toWei(1, 'ether'), 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
   console.log(`const lotteryAddress = master.getNewLotteryAddress.call();`)
   console.log(`const lotteryContract = decypher.getContract('Lottery', lotteryAddress);`)
-  console.log(`lotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') });`)
-  
-  console.log('* CHECK EVERYTHING WORKED *')
+
+  console.log('\n* CHECK EVERYTHING WORKED - run this before/after adding active player  *')
   
   console.log(`lotteryContract.getActivePlayers();`)
   console.log(`decypher.balance(lotteryAddress);`)
+
+  console.log(`lotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') });`)
+  
   // Start repl
   require('repl').start({})
