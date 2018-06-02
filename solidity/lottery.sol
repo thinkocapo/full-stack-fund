@@ -23,18 +23,21 @@ contract Lottery {
             activePlayers.push(msg.sender);
         }
         if (activePlayers.length == maxPlayers) {
+            // 1
             // uint fee = 1 % of this.balance
-
             // owner.transfer(fee)
 
-            // address winner = randomWinner()
-            // winner.transfer(this.balance)
+
+            // 2
+            address winner = this.randomWinner();
+            winner.transfer(this.balance);
             
         }
         // kill(); // selfdestruct(); remove from MasterContract.lotteries[]
     }
 
     function randomWinner() public view returns (address) {
+        // 2
         // Oracle to generate random number
         uint index = 1;
         return activePlayers[index];
