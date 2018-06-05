@@ -49,14 +49,13 @@ contract Lottery {
             emit eLog(msg.sender, player, "etherAmount sent was not the same as minEther"); // METP, minEther ToPlayWith
         }
         if (activePlayers.length == maxPlayers) {
-            emit eLog(msg.sender, player, "the lottery was filled. now making payout...");
             // 1 - Winner should receive money successfully before the House takes a Fee
             // address winner = this.randomWinner();
             
-            // TODO - WAY TO LOOKUP THE ACTIVE PLAYERS? how to call 'getActivePlayers'. will need this for Prod
-            // address winner = player; // HARD-CODED;
-            address winner = activePlayers[1];
+            uint randomNumber = 1;
+            address winner = activePlayers[randomNumber];
             winner.transfer(address(this).balance); // remaining balance...
+            emit eLog(msg.sender, player, "the lottery was filled. payout made...");
             
             // 2
             //uint numerator = 1;
