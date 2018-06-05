@@ -1,8 +1,7 @@
 pragma solidity ^0.4.0;
 
-// etherContribution is in wei
-// activePlayers.push(sender); // or should use addActivePlayer() (would need to update it)
-// owner receives fee when reward payout is made
+
+// reward payout is made, owner receives fee
 contract Lottery {
     uint public etherContribution;
     uint public maxPlayers;
@@ -11,8 +10,8 @@ contract Lottery {
 
     // no need to capture a 'balance' member variable because ether send to Contract Address, which has a native balance
     // activePlayers.push(sender); DEPRECATED, because call setter method during createLottery invocation in MasterContract
+    // TODO - check that msg.value the user is sending, is equal to the _etherContribution the user is defining
     function Lottery (uint _etherContribution, uint _maxPlayers, address _owner) public payable { // address sender
-        // TODO - check that msg.value the user is sending, is equal to the _etherContributino the user is defining
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
         owner = _owner; // TODO - should be sender? not owner of Master. maybe lottery creator isn't owner of MasterContract
@@ -26,16 +25,17 @@ contract Lottery {
     // there was a  param {value: web3.toWei(1, 'ether') } sent when web3 invocated this method...thats how the Lottery Contract gets the eth.
     function addActivePlayer(address player, uint etherAmount) public payable {
         if (etherAmount == etherContribution) {
-            // TODO - msg.sender works here? check the LOG...
-            emit Logger(msg.sender, "value equals ether contribution, add player");            
+            emit Logger(msg.sender, "value equals ether contribution, add player");
+            // TODO - pass no arg 'player' to below line, and instead use msg.sender
             activePlayers.push(player);
         }
         if (activePlayers.length == maxPlayers) {
             emit Logger(msg.sender, "the lottery was filled. now making payout...");
             // 1 - Winner should receive money successfully before the House takes a Fee
             // address winner = this.randomWinner();
-            //address winner = player;
-            //winner.transfer(this.balance); // remaining balance...
+            address winner = player; // HARD-CODED;
+            // TODO - WAY TO LOOKUP THE ACTIVE PLAYERS? how to call 'getActivePlayers'. will need this for Prod
+            winner.transfer(address(this).balance); // remaining balance...
             
             // 2
             //uint numerator = 1;

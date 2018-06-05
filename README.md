@@ -82,3 +82,13 @@ For when contracts are all in the same .sol file.
 var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
 // .contracts has 1 contract in it
 ```
+
+this error
+```
+winner.transfer(this.balance);
+Warning: Using contract member "balance" inherited from the address type is deprecated. Convert the contract to "address" type to access the member.
+```
+can be fixed with:
+```
+winner.transfer(address(this).balance);
+```
