@@ -1,5 +1,5 @@
-// Config
-global.config = {
+  // Config
+  global.config = {
     rpc: {
       host: "localhost",
       port: "8545"
@@ -21,47 +21,22 @@ global.config = {
   global.acct4 = web3.eth.accounts[3]
   global.acct5 = web3.eth.accounts[4]
   
-  // Helper Functions
   class Helpers {
-  
-    contractName(source) {
-      var re1 = /contract.*{/g
-      var re2 = /\s\w+\s/
-      return source.match(re1).pop().match(re2)[0].trim()
-    }
-  
-    // 1 Contract
-    createContractOLD(source, options={}) {
-      var compiled = solc.compile(source)
-      console.log('compiled', compiled)      
-      var contractName = this.contractName(source)
-      var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
-      var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
-      var contract = global.web3.eth.contract(abi)
-      var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
-  
-      var deployed = contract.new(Object.assign({
-        from: global.web3.eth.accounts[0],
-        data: bytecode,
-        gas: gasEstimate,
-        gasPrice: 5
-        // value: web3.toWei(1, 'ether')
-      }, options), (error, result) => { })
-  
-      return deployed
-    }
-
-    // Multiple contracts
-    // console.log('\n==== compiled.contracts =====\n', compiled.contracts) // shows 2 contracts
-    // compiled.contracts['MasterContract.sol:MasterContract'.bytecode]
-    // compiled.contracts['Lottery.sol:Lottery'.bytecode]
-    createContract(source, options={}) {
+    /**
+     * Multiple contracts referencing each other...So must compile them together
+     * Compile both, but deploy once (Master)
+     * compiled.contracts['MasterContract.sol:MasterContract'.bytecode]
+     * compiled.contracts['Lottery.sol:Lottery'.bytecode]
+     * creates all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
+     */
+    createAndDeployContracts(source, options={}) {
       // create input object by reading from directory
       var input = {
         'Lottery.sol': this.loadContract('Lottery'),
         'MasterContract.sol': this.loadContract('MasterContract')
       };
       let compiled = solc.compile({sources: input}, 1);
+
       var contractName = 'MasterContract'
       var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
       var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
@@ -85,17 +60,6 @@ global.config = {
       return fs.readFileSync(path, 'utf8')
     }
 
-    // TODO - need get the Lottery.sol Lottery Contract and not Lottery+Master in MasterContract.sol
-    // [`:${contractName}`] should ensure you get the Lottery one
-    getContractOLD(contractFileName, contractName, address) { // contractFileName:'MasterContract' contractName:'Lottery'
-      var source = this.loadContract(contractFileName)
-      var compiled = solc.compile(source)
-      var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
-      var Contract = global.web3.eth.contract(abi)
-      var contract = Contract.at(address)
-      return contract
-    }
-
     getContract(contractName, address) {
       var source = this.loadContract(contractName)
       var compiled = solc.compile(source)
@@ -105,18 +69,7 @@ global.config = {
       var contract = Contract.at(address)
       return contract
     }
-  
-    deployContractOLD(name, options={}) {
-      var source = this.loadContract(name)
-      return this.createContract(source, options)
-    }
-
-    // this.createContract will create all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
-    deployContracts() {
-      // var source = this.loadContract(name)
-      return this.createContract()
-    }
-  
+    
     balance(contract) {
       switch(typeof(contract)) {
         case "object":
@@ -131,15 +84,16 @@ global.config = {
           break
       }
     }
-
-    // reBalance / replenish ether () {}
-  
+    // reBalance() {}
   }
   
   // Load Helpers into Decypher namespace
   global.decypher = new Helpers()
-  // global.master = decypher.deployContractOLD("MasterContract")
-  global.master = decypher.deployContracts() // does abi/bytecodes and deploys MasterContract
+  // decypher now available as a global variable
+
+  // does abi/bytecodes and deploys MasterContract
+  global.master = decypher.createAndDeployContracts()
+  // master now available as a global variable
   
   console.log(`\n* Contract was deployed and is available as 'master' object. Run these commands *\n`)
   
@@ -156,3 +110,49 @@ global.config = {
   
   // Start repl
   require('repl').start({})
+
+
+
+
+// contractName(source) {
+//   var re1 = /contract.*{/g
+//   var re2 = /\s\w+\s/
+//   return source.match(re1).pop().match(re2)[0].trim()
+// }
+
+// 1 Contract
+// createContractOLD(source, options={}) {
+//   var compiled = solc.compile(source)
+//   var contractName = this.contractName(source)
+//   var bytecode = compiled["contracts"][`:${contractName}`]["bytecode"]
+//   var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
+//   var contract = global.web3.eth.contract(abi)
+//   var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
+//   var deployed = contract.new(Object.assign({
+//     from: global.web3.eth.accounts[0],
+//     data: bytecode,
+//     gas: gasEstimate,
+//     gasPrice: 5
+//   }, options), (error, result) => { })
+//   return deployed
+// }
+
+// TODO - need get the Lottery.sol Lottery Contract and not Lottery+Master in MasterContract.sol
+// [`:${contractName}`] should ensure you get the Lottery one
+// getContractOLD(contractFileName, contractName, address) { // contractFileName:'MasterContract' contractName:'Lottery'
+//   var source = this.loadContract(contractFileName)
+//   var compiled = solc.compile(source)
+//   var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
+//   var Contract = global.web3.eth.contract(abi)
+//   var contract = Contract.at(address)
+//   return contract
+// }
+
+// deployContractOLD(name, options={}) {
+//   var source = this.loadContract(name)
+//   return this.createContract(source, options)
+// }
+
+// deployContracts() {
+//   return this.createContract()
+// }

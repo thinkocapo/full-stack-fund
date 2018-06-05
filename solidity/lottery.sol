@@ -23,14 +23,15 @@ contract Lottery {
             activePlayers.push(msg.sender);
         }
         if (activePlayers.length == maxPlayers) {
-            // 1
-            // uint fee = 1 % of this.balance
-            // owner.transfer(fee)
-
+            // 1 - TEST
+            //uint numerator = 1;
+            //uint denominator = 100;
+            //uint fee = (this.balance * numerator) / denominator;
+            //owner.transfer(fee); // does this substract it from this.balance???
 
             // 2
-            address winner = this.randomWinner();
-            winner.transfer(this.balance);
+            // address winner = this.randomWinner();
+            // winner.transfer(this.balance); // remaining balance...
             
         }
         // kill(); // selfdestruct(); remove from MasterContract.lotteries[]
