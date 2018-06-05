@@ -16,7 +16,7 @@ contract MasterContract {
         Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, owner);
         // msg.value already went to the contract on previous line...because of .value(msg.value) and user's invocation had {value: web3.toWei(1, 'ether')}
         // this is just passing the value as a arbitrary number
-        newLottery.addActivePlayer(owner, msg.value); 
+        newLottery.addActivePlayer(owner, msg.value); // delegate call to set msg.sender in Lottery as same addr as msg.sender in MasterContract
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }

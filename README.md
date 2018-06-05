@@ -41,6 +41,24 @@ node script-v0.2.js // deploys the contract for you, using decypher.deployContra
 ```
 ^^ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. It needs 3 more players before payout is made, and house collects its fee.
 
+#### Example of Emit Event
+```
+```
+// appears in Node console, does not show in your local running blockchain's log
+ { logIndex: 0,
+  transactionIndex: 0,
+  transactionHash: '0x63dd197bc47e8020622e17359c518546353489cec9eb1c6e9cfbcd0ccfd26a7e',
+  blockHash: '0x5ccd2ef930117cf328676236b5536121857b93ed337c2e60eda860b161c126c2',
+  blockNumber: 3,
+  address: '0x68f40cf3149e96c6db08908a326af12da8e26322',
+  type: 'mined',
+  event: 'eLog',
+  args:
+   { _from: '0x4dc586b4a3cf013e9a09340541bda5f5b509e19d',
+     _value: 'value equals ether contribution, add player' } }
+```
+```
+
 ### Solidity Gotchas
 - If sending ether to a new contract, and you're creating that contract via Solidity constructor invocation, syntax:
 `Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);`
@@ -91,4 +109,18 @@ Warning: Using contract member "balance" inherited from the address type is depr
 can be fixed with:
 ```
 winner.transfer(address(this).balance);
+```
+
+
+msg.sender may be different, depending on the calling context of the smart contract method.
+Was the MasterContract.sol calling addActivePlayer and using from:addr from MasterContract.sol?
+OR
+Was web3 contract obj calling addActivePlayer and using from:addr from that web3.js invocation?
+activePlayers.push(msg.sender); // might get wrong address
+
+emit event
+shows _from:addr for whatever you pass into eLog(addr) --> 
+so implement both into the eLog emit event:
+```
+emit eLog(msg.sender, player, "the lottery was not filled yet");
 ```

@@ -58,6 +58,13 @@ class Helpers {
     console.log('compiled Lottery.sol and MasterContract.sol together...')
 
     var contractName = 'MasterContract'
+    
+    // TODO - implement...
+    try {
+
+    } catch (err) {
+
+    }
     var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
     var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
     var contract = global.web3.eth.contract(abi)
