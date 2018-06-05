@@ -35,7 +35,7 @@ contract Lottery {
             activePlayers.push(player);
         }
         if (activePlayers.length == maxPlayers) {
-            emit Logger(msg.sender, "the lottery was filled");
+            emit Logger(msg.sender, "the lottery was filled. now making payout...");
             // 1 - Winner should receive money successfully before the House takes a Fee
             // address winner = this.randomWinner();
             // winner.transfer(this.balance); // remaining balance...
