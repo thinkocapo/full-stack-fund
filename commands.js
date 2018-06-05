@@ -39,6 +39,7 @@ decypher.balance(lotteryAddress);
 decypher.balance(acct1);
 decypher.balance(acct2);
 
+web3.eth.getCode(lotteryAddress) // '0x0'
 
 /*********************************/
 // EVENT EMITTING    
