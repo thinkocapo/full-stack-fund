@@ -68,20 +68,23 @@ class Helpers {
       gas: gasEstimate,
       gasPrice: 5
       // value: web3.toWei(1, 'ether')
-    }, options), (error, result) => {})
+    }, options), (error, masterContract) => {
+      console.log('....... masterContract ...... .address\n', masterContract.address) // master.address
+      
+      // EVENT EMITTING - version of web3?
+      // var Lottery = global.web3.eth.contract(abi)
+      // var lottery = Lottery.at(masterContract.address); // BUT there's not lottery deployed yet... and NOT masterContract.address
+      // var event = lottery.LotteryFilled();
+      // // watch for changes
+      // event.watch(function (error, result) {
+      //   // result will contain various information
+      //   // including the argumets given to the `Lottery Filled` call
+      //   if (!error) console.log('...... event.watch ....... result\n', result)
+      // })
 
-    // EVENT EMITTING - version of web3?
-    var Lottery = global.web3.eth.contract(abi)
-    var lottery = Lottery.at('address'); // what address?
-    var event = lottery.LotteryFilled();
-    // watch for changes
-    event.watch(function (error, result) {
-      // result will contain various information
-      // including the argumets given to the `Lottery Filled` call
-      if (!error) console.log('...... result .......\n', result)
-    }
-
+    })
     return deployed
+
   }
 
   // TODO get abi from the MasterContract(?) that has all, {source: input} ?
@@ -105,7 +108,7 @@ class Helpers {
 // Load Helpers into Decypher namespace - decypher now available as a global variable
 global.decypher = new Helpers()
 
-// does abi/bytecodes and deploys MasterContract - master now available as a global variable
+// does abi/bytecodes and deploys MasterContract - Master Contract now available as a global variable
 global.master = decypher.createAndDeployContracts()
 
 console.log(`\n* Contract was deployed and is available as 'master' object. Run these commands *\n`)
@@ -113,22 +116,18 @@ console.log('\n* CREATE LOTTERY *\n')
 console.log(`master.createLottery(web3.toWei(1, 'ether'), 2, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
 console.log(`var lotteryAddress = master.getNewLotteryAddress.call();`)
 console.log(`var lotteryContract = decypher.getContract('Lottery', lotteryAddress);`)
-/*
-master.createLottery(web3.toWei(1, 'ether'), 2, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })
-var lotteryAddress = master.getNewLotteryAddress.call();
-var lotteryContract = decypher.getContract('Lottery', lotteryAddress);
-*/
 
-console.log('\n* CHECK EVERYTHING WORKED - run this before/after adding active player  *\n')
-
+console.log('\n***** CHECK EVERYTHING WORKED - run this before/after adding active player  ******\n')
 console.log(`lotteryContract.getActivePlayers();`)
 console.log(`decypher.balance(lotteryAddress);`)
 
-console.log('\n* ADD 2ND PLAYER TO LOTTERY *\n')
+// ** IN NODE.JS, add the EVENT code....OPTIONAL
 
+console.log('\n***** ADD 2ND PLAYER TO LOTTERY *****')
 console.log(`\nlotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') });`)
 
-console.log('\n* RE-CHECK ACTIVE PLAYERS AND BALANCES *\n')
+
+console.log('\n***** RE-CHECK ACTIVE PLAYERS AND BALANCES *****\n')
 
 // Start repl
 require('repl').start({})
