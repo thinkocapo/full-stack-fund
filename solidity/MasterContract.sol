@@ -18,10 +18,10 @@ contract MasterContract {
     }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
-        // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery
-        // otherwise, continue below...
-        // * don't need _etherContribution, use msg.value instead
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender, owner);
+        // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery, otherwise, continue below...
+        // don't need _etherContribution, use msg.value instead? but what they're declaring should match what they're sending...Design choice...
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, owner);
+        newLottery.addActivePlayer(owner, msg.value);
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }

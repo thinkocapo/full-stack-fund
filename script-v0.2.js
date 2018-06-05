@@ -55,6 +55,7 @@ class Helpers {
       'MasterContract.sol': this.loadContract('MasterContract')
     };
     let compiled = solc.compile({sources: input}, 1);
+    console.log('compiled Lottery.sol and MasterContract.sol together...')
 
     var contractName = 'MasterContract'
     var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
@@ -69,7 +70,7 @@ class Helpers {
       gasPrice: 5
       // value: web3.toWei(1, 'ether')
     }, options), (error, masterContract) => {
-      console.log('....... masterContract ...... .address\n', masterContract.address) // master.address
+      // console.log('....... masterContract ...... .address\n', masterContract.address) // master.address
       
       // EVENT EMITTING - version of web3?
       // var Lottery = global.web3.eth.contract(abi)
@@ -99,7 +100,6 @@ class Helpers {
 
   loadContract(name) {
     var path = `./solidity/${name}.sol`
-    console.log('PATH', path)
     return fs.readFileSync(path, 'utf8')
   }  
 }
