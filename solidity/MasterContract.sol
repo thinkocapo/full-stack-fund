@@ -1,13 +1,6 @@
 pragma solidity ^0.4.0;
 import "./Lottery.sol";
 
-// Need function for updating owner to new owner, only callable by the current owner
-// modifier onlyOwner() {
-//     if (msg.sender == owner) {
-//         _;
-//     }
-// }
-// getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }
 contract MasterContract {
     address public owner;
     Lottery[] public lotteries;
@@ -17,11 +10,13 @@ contract MasterContract {
         owner = msg.sender;
     }
 
+    // TODO - If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery, otherwise, continue below...
+    // don't need _etherContribution, use msg.value instead? but what they're declaring should match what they're sending...Design choice...
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
-        // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery, otherwise, continue below...
-        // don't need _etherContribution, use msg.value instead? but what they're declaring should match what they're sending...Design choice...
         Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, owner);
-        newLottery.addActivePlayer(owner, msg.value);
+        // msg.value already went to the contract on previous line...because of .value(msg.value) and user's invocation had {value: web3.toWei(1, 'ether')}
+        // this is just passing the value as a arbitrary number
+        newLottery.addActivePlayer(owner, msg.value); 
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }
@@ -44,7 +39,6 @@ contract MasterContract {
 // DEV OBSERVATIONS
 // 1 Master getLottery 2 addPlayer() <-- would have to pay gas twice? because two transactions?
 // 1 Master addPlayer(lotteryAddress) and Contract addPlayer(msg.sender)
-
 // HOWEVER this would allow for 1 smart contract call, instead of 2.
 // * dont need this because If you already have lottery address, then don't bother going through Master Contract *
 // function addPlayer(address lotteryAddress) public payable {
@@ -56,3 +50,11 @@ contract MasterContract {
     //lottery.addActivePlayer(msg.sender);        
     // repeat...
 // }
+
+// Need function for updating owner to new owner, only callable by the current owner
+// modifier onlyOwner() {
+//     if (msg.sender == owner) {
+//         _;
+//     }
+// }
+// getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }

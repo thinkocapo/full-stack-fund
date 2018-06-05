@@ -1,5 +1,5 @@
 // 1
-master.createLottery(web3.toWei(1, 'ether'), 2, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })
+master.createLottery(web3.toWei(1, 'ether'), 2, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(5, 'ether') })
 var lotteryAddress = master.getNewLotteryAddress.call();
 var lotteryContract = decypher.getContract('Lottery', lotteryAddress);      
 

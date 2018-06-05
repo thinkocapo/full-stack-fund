@@ -9,11 +9,13 @@ contract Lottery {
     address owner;
     address[] public activePlayers;
 
+    // no need to capture a 'balance' member variable because ether send to Contract Address, which has a native balance
+    // activePlayers.push(sender); DEPRECATED, because call setter method during createLottery invocation in MasterContract
     function Lottery (uint _etherContribution, uint _maxPlayers, address _owner) public payable { // address sender
-        etherContribution = _etherContribution; // * msg.value
+        // TODO - check that msg.value the user is sending, is equal to the _etherContributino the user is defining
+        etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
-        // activePlayers.push(sender); DEPRECATED, because call setter method during createLottery invocation in MasterContract
-        owner = _owner; // *TODO* should be sender? not owner of Master. maybe lottery creator isn't owner of MasterContract
+        owner = _owner; // TODO - should be sender? not owner of Master. maybe lottery creator isn't owner of MasterContract
     }
 
     event Logger (
@@ -21,16 +23,10 @@ contract Lottery {
         string _value
     );
 
-    /* DEPRECATED because msg.value and/or msg.sender weren't available when this method was called from MasterContract.sol, however they were accessible when called from web3
-    function addActivePlayer() public payable {
-         if (msg.value == etherContribution) {
-             activePlayers.push(msg.sender);
-         }
-    }
-    *TODO* is there a way to pass msg.value if this method is called from Master Contract?
-    */
+    // there was a  param {value: web3.toWei(1, 'ether') } sent when web3 invocated this method...thats how the Lottery Contract gets the eth.
     function addActivePlayer(address player, uint etherAmount) public payable {
         if (etherAmount == etherContribution) {
+            // TODO - msg.sender works here? check the LOG...
             emit Logger(msg.sender, "value equals ether contribution, add player");            
             activePlayers.push(player);
         }
@@ -38,7 +34,8 @@ contract Lottery {
             emit Logger(msg.sender, "the lottery was filled. now making payout...");
             // 1 - Winner should receive money successfully before the House takes a Fee
             // address winner = this.randomWinner();
-            // winner.transfer(this.balance); // remaining balance...
+            //address winner = player;
+            //winner.transfer(this.balance); // remaining balance...
             
             // 2
             //uint numerator = 1;
