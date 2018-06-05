@@ -52,8 +52,10 @@ contract Lottery {
             emit eLog(msg.sender, player, "the lottery was filled. now making payout...");
             // 1 - Winner should receive money successfully before the House takes a Fee
             // address winner = this.randomWinner();
-            address winner = player; // HARD-CODED;
+            
             // TODO - WAY TO LOOKUP THE ACTIVE PLAYERS? how to call 'getActivePlayers'. will need this for Prod
+            // address winner = player; // HARD-CODED;
+            address winner = activePlayers[1];
             winner.transfer(address(this).balance); // remaining balance...
             
             // 2
