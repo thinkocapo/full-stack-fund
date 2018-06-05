@@ -16,7 +16,8 @@ var abi = lotteryContract.abi
 var Lottery = web3.eth.contract(abi)
 var lottery = Lottery.at(lotteryAddress);
 var event = lottery.eLog();
-event.watch(function (error, result) { if (!error) { console.log('...... emit event ....... .watch\n', result);} }) // 1st logs the Function definition 2nd logs the event? looks like double-loggin // https://github.com/ether-camp/ethereum-sandbox/issues/74
+event.watch(function (error, result) { if (!error) { console.log('...... emit event ....... .watch\n', result);} })
+ // 1st logs the Function definition 2nd logs the event? looks like double-loggin // https://github.com/ether-camp/ethereum-sandbox/issues/74
 
 // 1 OPTIONAL
 lotteryContract.getActivePlayers();
