@@ -25,6 +25,22 @@ global.acct5 = web3.eth.accounts[4]
   
 /******************* START HELP CLASS *********************/  
 class Helpers {
+
+  balance(contract) {
+    switch(typeof(contract)) {
+      case "object":
+        if(contract.address) {
+          return global.web3.fromWei(global.web3.eth.getBalance(contract.address), 'ether').toNumber()
+        } else {
+          return new Error("cannot call getEtherBalance on an object that does not have a property 'address'")
+        }
+        break
+      case "string":
+        return global.web3.fromWei(global.web3.eth.getBalance(contract), 'ether').toNumber()
+        break
+    }
+  }
+
   /**
    * Multiple contracts referencing each other...So must compile them together
    * Compile both, but deploy once (Master)
@@ -54,13 +70,18 @@ class Helpers {
       // value: web3.toWei(1, 'ether')
     }, options), (error, result) => {})
 
-    return deployed
-  }
+    // EVENT EMITTING - version of web3?
+    var Lottery = global.web3.eth.contract(abi)
+    var lottery = Lottery.at('address'); // what address?
+    var event = lottery.LotteryFilled();
+    // watch for changes
+    event.watch(function (error, result) {
+      // result will contain various information
+      // including the argumets given to the `Lottery Filled` call
+      if (!error) console.log('...... result .......\n', result)
+    }
 
-  loadContract(name) {
-    var path = `./solidity/${name}.sol`
-    console.log('PATH', path)
-    return fs.readFileSync(path, 'utf8')
+    return deployed
   }
 
   // TODO get abi from the MasterContract(?) that has all, {source: input} ?
@@ -72,40 +93,31 @@ class Helpers {
     var contract = Contract.at(address)
     return contract
   }
-  
-  balance(contract) {
-    switch(typeof(contract)) {
-      case "object":
-        if(contract.address) {
-          return global.web3.fromWei(global.web3.eth.getBalance(contract.address), 'ether').toNumber()
-        } else {
-          return new Error("cannot call getEtherBalance on an object that does not have a property 'address'")
-        }
-        break
-      case "string":
-        return global.web3.fromWei(global.web3.eth.getBalance(contract), 'ether').toNumber()
-        break
-    }
-  }
-  // reBalance() {}
+
+  loadContract(name) {
+    var path = `./solidity/${name}.sol`
+    console.log('PATH', path)
+    return fs.readFileSync(path, 'utf8')
+  }  
 }
 /******************* END HELP CLASS *********************/
   
-// Load Helpers into Decypher namespace
+// Load Helpers into Decypher namespace - decypher now available as a global variable
 global.decypher = new Helpers()
-// decypher now available as a global variable
 
-// does abi/bytecodes and deploys MasterContract
+// does abi/bytecodes and deploys MasterContract - master now available as a global variable
 global.master = decypher.createAndDeployContracts()
-// master now available as a global variable
 
 console.log(`\n* Contract was deployed and is available as 'master' object. Run these commands *\n`)
-
 console.log('\n* CREATE LOTTERY *\n')
-
-console.log(`master.createLottery(web3.toWei(1, 'ether'), 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
-console.log(`const lotteryAddress = master.getNewLotteryAddress.call();`)
-console.log(`const lotteryContract = decypher.getContract('Lottery', lotteryAddress);`)
+console.log(`master.createLottery(web3.toWei(1, 'ether'), 2, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
+console.log(`var lotteryAddress = master.getNewLotteryAddress.call();`)
+console.log(`var lotteryContract = decypher.getContract('Lottery', lotteryAddress);`)
+/*
+master.createLottery(web3.toWei(1, 'ether'), 2, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })
+var lotteryAddress = master.getNewLotteryAddress.call();
+var lotteryContract = decypher.getContract('Lottery', lotteryAddress);
+*/
 
 console.log('\n* CHECK EVERYTHING WORKED - run this before/after adding active player  *\n')
 

@@ -7,15 +7,19 @@ contract Lottery {
     uint public etherContribution;
     uint public maxPlayers;
     address owner;
-
     address[] public activePlayers;
 
     function Lottery (uint _etherContribution, uint _maxPlayers, address sender, address _owner) public payable {
         etherContribution = _etherContribution; // * msg.value
         maxPlayers = _maxPlayers;
         activePlayers.push(sender);
-        owner = _owner;
+        owner = _owner; // should be sender? not owner of Master. maybe lottery creator isn't owner of MasterContract
     }
+
+    event LotteryFilled (
+        address indexed _from,
+        uint _value
+    );
 
     // owner.transfer(this.balance); // wrong program flow but worked
     function addActivePlayer() public payable {
@@ -23,6 +27,7 @@ contract Lottery {
             activePlayers.push(msg.sender);
         }
         if (activePlayers.length == maxPlayers) {
+            emit LotteryFilled(msg.sender, 1);
             // 1 - TEST
             //uint numerator = 1;
             //uint denominator = 100;
@@ -33,6 +38,8 @@ contract Lottery {
             // address winner = this.randomWinner();
             // winner.transfer(this.balance); // remaining balance...
             
+        } else {
+            emit LotteryFilled(msg.sender, 9);
         }
         // kill(); // selfdestruct(); remove from MasterContract.lotteries[]
     }
