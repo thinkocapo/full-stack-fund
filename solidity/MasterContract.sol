@@ -18,6 +18,8 @@ contract MasterContract {
         // this is just passing the value as a arbitrary number
         newLottery.addActivePlayer(owner, msg.value); // delegate call to set msg.sender in Lottery as same addr as msg.sender in MasterContract
         newLotteryAddress = address(newLottery);
+        
+        // TODO - Evaluate if we need to use Lottery[], because its difficult to remove lotteries from Lottery[] once they're completed
         lotteries.push(newLottery);
     }
 

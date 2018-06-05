@@ -54,18 +54,17 @@ class Helpers {
       'Lottery.sol': this.loadContract('Lottery'),
       'MasterContract.sol': this.loadContract('MasterContract')
     };
-    let compiled = solc.compile({sources: input}, 1);
-    console.log('compiled Lottery.sol and MasterContract.sol together...')
-
-    var contractName = 'MasterContract'
     
-    // TODO - implement...
+    let compiled, contractName, bytecode
     try {
-
+      compiled = solc.compile({sources: input}, 1);
+      contractName = 'MasterContract'
+      bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+      console.log('compiled Lottery.sol MasterContract.sol together successfully...')
     } catch (err) {
-
+      console.log('ERROR in compilation, no bytecode available')
     }
-    var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+    
     var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
     var contract = global.web3.eth.contract(abi)
     var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })

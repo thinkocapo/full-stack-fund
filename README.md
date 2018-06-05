@@ -124,3 +124,7 @@ so implement both into the eLog emit event:
 ```
 emit eLog(msg.sender, player, "the lottery was not filled yet");
 ```
+
+emit event - note
+must apply it after the contract is created. node.js displays it and needs to know that deployed contract's address.
+code from solidity alone won't cause any emit event

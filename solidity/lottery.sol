@@ -50,11 +50,9 @@ contract Lottery {
         }
         if (activePlayers.length == maxPlayers) {
             // 1 - Winner should receive money successfully before the House takes a Fee
-            // address winner = this.randomWinner();
-            
             uint randomNumber = 1;
             address winner = activePlayers[randomNumber];
-            winner.transfer(address(this).balance); // remaining balance...
+            winner.transfer(address(this).balance);
             
             // 2
             //uint numerator = 1;
@@ -64,8 +62,7 @@ contract Lottery {
             
             // 3
             // https://en.wikiquote.org/wiki/Inspector_Gadget
-            // **TODO ** Remove from MasterContract.lotteries[] - will this work?
-            selfdestruct(address(this));
+            selfdestruct(address(this)); // doesnt remove the lottery from MasterContract.sol's Lottery[]
             emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructed");
         } else {
             emit eLog(msg.sender, player, "the lottery was not filled yet");
