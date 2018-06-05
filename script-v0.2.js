@@ -1,117 +1,125 @@
-  // Config
-  global.config = {
-    rpc: {
-      host: "localhost",
-      port: "8545"
-    }
+// import Helpers from './helpers'
+  
+// Config
+global.config = {
+  rpc: {
+    host: "localhost",
+    port: "8545"
+  }
+}
+
+// Load Libraries
+global.solc = require("solc")
+global.fs = require("fs")
+global.Web3 = require("web3")
+
+// Connect Web3 Instance
+global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
+
+// Global Account Accessors
+global.acct1 = web3.eth.accounts[0]
+global.acct2 = web3.eth.accounts[1]
+global.acct3 = web3.eth.accounts[2]
+global.acct4 = web3.eth.accounts[3]
+global.acct5 = web3.eth.accounts[4]
+  
+/******************* START HELP CLASS *********************/  
+class Helpers {
+  /**
+   * Multiple contracts referencing each other...So must compile them together
+   * Compile both, but deploy once (Master)
+   * compiled.contracts['MasterContract.sol:MasterContract'.bytecode]
+   * compiled.contracts['Lottery.sol:Lottery'.bytecode]
+   * creates all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
+   */
+  createAndDeployContracts(source, options={}) {
+    // create input object by reading from directory
+    var input = {
+      'Lottery.sol': this.loadContract('Lottery'),
+      'MasterContract.sol': this.loadContract('MasterContract')
+    };
+    let compiled = solc.compile({sources: input}, 1);
+
+    var contractName = 'MasterContract'
+    var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+    var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
+    var contract = global.web3.eth.contract(abi)
+    var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
+
+    var deployed = contract.new(Object.assign({
+      from: global.web3.eth.accounts[0],
+      data: bytecode,
+      gas: gasEstimate,
+      gasPrice: 5
+      // value: web3.toWei(1, 'ether')
+    }, options), (error, result) => {})
+
+    return deployed
+  }
+
+  loadContract(name) {
+    var path = `./solidity/${name}.sol`
+    console.log('PATH', path)
+    return fs.readFileSync(path, 'utf8')
+  }
+
+  // TODO get abi from the MasterContract(?) that has all, {source: input} ?
+  getContract(contractName, address) {
+    var source = this.loadContract(contractName)
+    var compiled = solc.compile(source)
+    var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
+    var Contract = global.web3.eth.contract(abi)
+    var contract = Contract.at(address)
+    return contract
   }
   
-  // Load Libraries
-  global.solc = require("solc")
-  global.fs = require("fs")
-  global.Web3 = require("web3")
-  
-  // Connect Web3 Instance
-  global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
-  
-  // Global Account Accessors
-  global.acct1 = web3.eth.accounts[0]
-  global.acct2 = web3.eth.accounts[1]
-  global.acct3 = web3.eth.accounts[2]
-  global.acct4 = web3.eth.accounts[3]
-  global.acct5 = web3.eth.accounts[4]
-  
-  class Helpers {
-    /**
-     * Multiple contracts referencing each other...So must compile them together
-     * Compile both, but deploy once (Master)
-     * compiled.contracts['MasterContract.sol:MasterContract'.bytecode]
-     * compiled.contracts['Lottery.sol:Lottery'.bytecode]
-     * creates all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
-     */
-    createAndDeployContracts(source, options={}) {
-      // create input object by reading from directory
-      var input = {
-        'Lottery.sol': this.loadContract('Lottery'),
-        'MasterContract.sol': this.loadContract('MasterContract')
-      };
-      let compiled = solc.compile({sources: input}, 1);
-
-      var contractName = 'MasterContract'
-      var bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
-      var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
-      var contract = global.web3.eth.contract(abi)
-      var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
-
-      var deployed = contract.new(Object.assign({
-        from: global.web3.eth.accounts[0],
-        data: bytecode,
-        gas: gasEstimate,
-        gasPrice: 5
-        // value: web3.toWei(1, 'ether')
-      }, options), (error, result) => { })
-  
-      return deployed
+  balance(contract) {
+    switch(typeof(contract)) {
+      case "object":
+        if(contract.address) {
+          return global.web3.fromWei(global.web3.eth.getBalance(contract.address), 'ether').toNumber()
+        } else {
+          return new Error("cannot call getEtherBalance on an object that does not have a property 'address'")
+        }
+        break
+      case "string":
+        return global.web3.fromWei(global.web3.eth.getBalance(contract), 'ether').toNumber()
+        break
     }
-  
-    loadContract(name) {
-      var path = `./solidity/${name}.sol`
-      console.log('PATH', path)
-      return fs.readFileSync(path, 'utf8')
-    }
-
-    getContract(contractName, address) {
-      var source = this.loadContract(contractName)
-      var compiled = solc.compile(source)
-      // TODO get from the MasterContract(?) that has all, {source: input}
-      var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
-      var Contract = global.web3.eth.contract(abi)
-      var contract = Contract.at(address)
-      return contract
-    }
-    
-    balance(contract) {
-      switch(typeof(contract)) {
-        case "object":
-          if(contract.address) {
-            return global.web3.fromWei(global.web3.eth.getBalance(contract.address), 'ether').toNumber()
-          } else {
-            return new Error("cannot call getEtherBalance on an object that does not have a property 'address'")
-          }
-          break
-        case "string":
-          return global.web3.fromWei(global.web3.eth.getBalance(contract), 'ether').toNumber()
-          break
-      }
-    }
-    // reBalance() {}
   }
+  // reBalance() {}
+}
+/******************* END HELP CLASS *********************/
   
-  // Load Helpers into Decypher namespace
-  global.decypher = new Helpers()
-  // decypher now available as a global variable
+// Load Helpers into Decypher namespace
+global.decypher = new Helpers()
+// decypher now available as a global variable
 
-  // does abi/bytecodes and deploys MasterContract
-  global.master = decypher.createAndDeployContracts()
-  // master now available as a global variable
-  
-  console.log(`\n* Contract was deployed and is available as 'master' object. Run these commands *\n`)
-  
-  console.log(`master.createLottery(web3.toWei(1, 'ether'), 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
-  console.log(`const lotteryAddress = master.getNewLotteryAddress.call();`)
-  console.log(`const lotteryContract = decypher.getContract('Lottery', lotteryAddress);`)
+// does abi/bytecodes and deploys MasterContract
+global.master = decypher.createAndDeployContracts()
+// master now available as a global variable
 
-  console.log('\n* CHECK EVERYTHING WORKED - run this before/after adding active player  *\n')
-  
-  console.log(`lotteryContract.getActivePlayers();`)
-  console.log(`decypher.balance(lotteryAddress);`)
+console.log(`\n* Contract was deployed and is available as 'master' object. Run these commands *\n`)
 
-  console.log(`\nlotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') });`)
-  
-  // Start repl
-  require('repl').start({})
+console.log('\n* CREATE LOTTERY *\n')
 
+console.log(`master.createLottery(web3.toWei(1, 'ether'), 5, {from: acct1, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') })`)
+console.log(`const lotteryAddress = master.getNewLotteryAddress.call();`)
+console.log(`const lotteryContract = decypher.getContract('Lottery', lotteryAddress);`)
 
+console.log('\n* CHECK EVERYTHING WORKED - run this before/after adding active player  *\n')
+
+console.log(`lotteryContract.getActivePlayers();`)
+console.log(`decypher.balance(lotteryAddress);`)
+
+console.log('\n* ADD 2ND PLAYER TO LOTTERY *\n')
+
+console.log(`\nlotteryContract.addActivePlayer({from: acct2, gas: 4612388, gasPrice: 5, value: web3.toWei(1, 'ether') });`)
+
+console.log('\n* RE-CHECK ACTIVE PLAYERS AND BALANCES *\n')
+
+// Start repl
+require('repl').start({})
 
 
 // contractName(source) {
