@@ -26,10 +26,6 @@ var abi = lotteryContract.abi
 var Lottery = web3.eth.contract(abi)
 var lottery = Lottery.at(lotteryAddress);
 var event = lottery.Logger();
-// watch for changes
+event.watch(function (error, result) { if (!error) { console.log('...... event.watch ....... result\n', result);} })
 // result will contain various information
 // including the argumets given to the `Lottery Filled` call
-event.watch(function (error, result) { if (!error) { console.log('...... event.watch ....... result\n', result);} })
-
-
-
