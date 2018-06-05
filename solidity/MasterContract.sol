@@ -2,25 +2,26 @@ pragma solidity ^0.4.0;
 import "./Lottery.sol";
 
 // Need function for updating owner to new owner, only callable by the current owner
+// modifier onlyOwner() {
+//     if (msg.sender == owner) {
+//         _;
+//     }
+// }
 // getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }
 contract MasterContract {
-    // address public owner;
+    address public owner;
     Lottery[] public lotteries;
     address public newLotteryAddress;
-    // modifier onlyOwner() {
-    //     if (msg.sender == owner) {
-    //         _;
-    //     }
-    // }
     
     function MasterContract () public payable {
-        // owner = msg.sender;
+        owner = msg.sender;
     }
 
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
-        // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery
-        // otherwise, continue below...
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);
+        // If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery, otherwise, continue below...
+        // don't need _etherContribution, use msg.value instead? but what they're declaring should match what they're sending...Design choice...
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, owner);
+        newLottery.addActivePlayer(owner, msg.value);
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }
@@ -34,6 +35,9 @@ contract MasterContract {
     function getLotteryMaxPlayers() public view returns (uint) {
         Lottery lottery = Lottery(newLotteryAddress); 
         return lottery.getMaxPlayers();
+    }
+    function getOwner() public view returns (address){
+        return owner;
     }
 }
 
