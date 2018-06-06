@@ -1,29 +1,10 @@
+// TODO import Helpers from './helpers'
+// Before running setup.js, initialize a local blockchain, Loads test accounts and MasterContract into your locally running blockchain on localhost:8545:
+// ganache-cli testrpc
+// The last line of this file starts a Node.js repl console, and main.js has commands for us to paste into it
+// (Or send them as input to the console using tmux) 
+
 // import Helpers from './helpers'
-  
-// Config
-global.config = {
-  rpc: {
-    host: "localhost",
-    port: "8545"
-  }
-}
-
-// Load Libraries
-global.solc = require("solc")
-global.fs = require("fs")
-global.Web3 = require("web3")
-
-// Connect Web3 Instance
-global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
-
-// Global Account Accessors
-global.acct1 = web3.eth.accounts[0]
-global.acct2 = web3.eth.accounts[1]
-global.acct3 = web3.eth.accounts[2]
-global.acct4 = web3.eth.accounts[3]
-global.acct5 = web3.eth.accounts[4]
-  
-/******************* START HELP CLASS *********************/  
 class Helpers {
 
   balance(contract) {
@@ -93,11 +74,26 @@ class Helpers {
     return fs.readFileSync(path, 'utf8')
   }  
 }
-/******************* END HELP CLASS *********************/
-// does abi/bytecodes and deploys MasterContract - Master Contract now available as a global variable
-// const { balance, createAndDeployContracts } = new Helpers() // loses 'this' context if don't call it off of helpers - 'cannot read property loadContract of undefined'
+
+global.config = {
+  rpc: {
+    host: "localhost",
+    port: "8545"
+  }
+}
+global.solc = require("solc")
+global.fs = require("fs")
+global.Web3 = require("web3")
+global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
+
+global.acct1 = web3.eth.accounts[0]
+global.acct2 = web3.eth.accounts[1]
+global.acct3 = web3.eth.accounts[2]
+global.acct4 = web3.eth.accounts[3]
+global.acct5 = web3.eth.accounts[4]
 
 const helpers = new Helpers()
+
 global.masterContract = helpers.createAndDeployContracts()
 global.balance = helpers.balance
 global.getContract = helpers.getContract.bind(helpers)
@@ -105,5 +101,7 @@ global.toWei = function (E) { return web3.toWei(E, 'ether') }
 
 console.log(`....MasterContract was deployed and is available as 'masterContract' global object....\n`)
 
-// Start repl
 require('repl').start({})
+
+
+// const { balance, createAndDeployContracts } = new Helpers() // loses 'this' context if don't call it off of helpers - 'cannot read property loadContract of undefined'
