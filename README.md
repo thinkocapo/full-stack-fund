@@ -1,5 +1,13 @@
 # full-stack-fund
-## Overview
+### How Full Stack Fund Works
+`fullStackFund.createLottery(5, 1.0)`  
+- Means that user is creating a lottery for 5 people where you have to contribute 1.0 ether to be part of it.  
+- If another user tries to .createLottery(5, 1.0) then they will be simply added to the existing (5, 1.0) lottery which is open, so it will become 2/5 full.  
+- Once it reaches 5/5, then a user will be be randoly selected 1 - 5 and the 5.0 ether will be send to that user's account address.
+- There can be multiple different lotteries open at any given time
+- Needs getter methods for viewing what lotteries are currently open
+- Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
+
 ### Instructions
 ```
 git clone https://github.com/thinkocapo/full-stack-fund.git
@@ -18,14 +26,6 @@ npm install
 
 MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. This is the max so it pays out, and house collects its fee.
 
-`fullStackFund.createLottery(5, 1.0)`  
-- Means that user is creating a lottery for 5 people where you have to contribute 1.0 ether to be part of it.  
-- If another user tries to .createLottery(5, 1.0) then they will be simply added to the existing (5, 1.0) lottery which is open, so it will become 2/5 full.  
-- Once it reaches 5/5, then a user will be be randoly selected 1 - 5 and the 5.0 ether will be send to that user's account address.
-- There can be multiple different lotteries open at any given time
-- Needs getter methods for viewing what lotteries are currently open
-- Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
-
 ### Example of Emit Event
 ```
 // appears in Node console, does not show in your local running blockchain's log
@@ -42,7 +42,7 @@ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 
      _value: 'value equals ether contribution, add player' } }
 ```
 
-### Solidity Gotchas
+### Some Solidity Gotchas
 - If sending ether to a new contract, and you're creating that contract via Solidity constructor invocation, syntax:
 `Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, msg.sender);`
 - Solidity doesn't like returning Objects or Arrays of Objects. If you return an Object (e.g. Lottery instance) it gives you the address of the object. Examples:
