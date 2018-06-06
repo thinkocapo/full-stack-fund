@@ -20,11 +20,21 @@
 // 1 - Deploy the Master Contract
 const wei = toWei(5)
 const emitText = 'emit event.watch\n'
-function setEventEmitLog() { // abi, lotteryAddress
+function setEventEmitLogL() {
     var abi = lotteryContract.abi
     var Lottery = web3.eth.contract(abi)
-    var lottery = Lottery.at(lotteryAddress);
-    var event = lottery.eLog();
+    var lotteryInstance = Lottery.at(lotteryAddress);
+    var event = lotteryInstance.eLog();
+    event.watch(function (error, result) { 
+        if (!error) { console.log(emitText, result.args);} else {console.log(error)}
+    })
+}
+function setEventEmitLogM() {
+    console.log('...... setEventEmitLogM........ masterContract', masterContract)
+    var abi = masterContract.abi
+    var MasterContract = web3.eth.contract(abi)
+    var masterContractInstance = MasterContract.at(masterContract.address);
+    var event = masterContractInstance.eLog();
     event.watch(function (error, result) { 
         if (!error) { console.log(emitText, result.args);} else {console.log(error)}
     })
@@ -37,7 +47,10 @@ masterContract.createLottery(
 var lotteryAddress = masterContract.getNewLotteryAddress.call();
 var lotteryContract = getContract('Lottery', lotteryAddress);     
 
-setEventEmitLog()
+// var masterContractAddress = masterContract.address
+
+setEventEmitLogL()
+setEventEmitLogM() // .bind(this)
 
 // 1st CHECK - only 1 player entered lottery so far, so that player lost ether, and second player still has starting amount of ether
 lotteryContract.getActivePlayers()[0];

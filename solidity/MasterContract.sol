@@ -28,7 +28,10 @@ contract MasterContract {
     }
 
     // Only can be called by a address that's in lotteries[]
+    // throw; ERRORS, needs revert()    
     modifier onlyBy {
+        emit eLog(msg.sender, "onlyBy....");
+
         // Search lottieres[] and make sure _lotteryAddress is in it
         uint256 numLotteries = lotteries.length;
         for (uint i = 0; i < numLotteries; i++) {
@@ -39,7 +42,6 @@ contract MasterContract {
                 _;
             } else {
                 emit eLog(msg.sender, "modifier - DONT REMOVE the lottery, it wasnt called correctly");                    
-                // throw; ERRORS
                 revert();
             }
         }
