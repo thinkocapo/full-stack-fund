@@ -22,7 +22,7 @@ module.exports = class Helpers {
      * compiled.contracts['Lottery.sol:Lottery'.bytecode]
      * creates all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
      */
-    createAndDeployContracts (source, options={}) {
+    compileContractsAndDeployMasterContract (source, options={}) {
       // create input object by reading from directory
       var input = {
         'Lottery.sol': this.loadContract('Lottery'),
@@ -51,6 +51,10 @@ module.exports = class Helpers {
       return deployed
   
     }
+
+    // compileContractsAndDeployMasterContract1File (source, options={}) {
+
+    // }
   
     // TODO get abi from the MasterContract(?) that has all, {source: input} ?
     // Contract.at(address) because multiple lottery contracts will get made, meaning multiple addresses with same abi code

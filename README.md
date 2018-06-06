@@ -116,3 +116,5 @@ code from solidity alone won't cause any emit event
 lotteries[] array of lotteries. want to search it for address. high gas cost that increases with n lotteries
 use mapping or other workaround
 https://ethereum.stackexchange.com/questions/12537/how-to-search-string-in-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+cyclic imports - supposedley fixed. Lotter and MasterContract can't import each other
