@@ -23,8 +23,8 @@ function setEventEmitLogL() {
     var abi = lotteryContract.abi
     var Lottery = web3.eth.contract(abi)
     var lotteryInstance = Lottery.at(lotteryAddress);
-    var event = lotteryInstance.eLog();
-    event.watch(function (error, result) { 
+    var event1 = lotteryInstance.eLog();
+    event1.watch(function (error, result) { 
         if (!error) { console.log(emitText, result.args);} else {console.log(error)}
     })
 }
@@ -32,8 +32,8 @@ function setEventEmitLogM() {
     var abi = masterContract.abi
     var MasterContract = web3.eth.contract(abi)
     var masterContractInstance = MasterContract.at(masterContract.address);
-    var event = masterContractInstance.eLog();
-    event.watch(function (error, result) { 
+    var event2 = masterContractInstance.eLog();
+    event2.watch(function (error, result) { 
         if (!error) { console.log(emitText, result.args);} else {console.log(error)}
     })
 }
@@ -44,7 +44,6 @@ masterContract.createLottery(
 )
 var lotteryAddress = masterContract.getNewLotteryAddress.call();
 var lotteryContract = getContract('Lottery', lotteryAddress);     
-
 
 setEventEmitLogL()
 setEventEmitLogM()
