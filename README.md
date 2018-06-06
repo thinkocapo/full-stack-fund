@@ -26,7 +26,6 @@ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 
 - Needs getter methods for viewing what lotteries are currently open
 - Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
 
-## Software Development
 ### Example of Emit Event
 ```
 // appears in Node console, does not show in your local running blockchain's log
@@ -41,7 +40,6 @@ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 
   args:
    { _from: '0x4dc586b4a3cf013e9a09340541bda5f5b509e19d',
      _value: 'value equals ether contribution, add player' } }
-```
 ```
 
 ### Solidity Gotchas
