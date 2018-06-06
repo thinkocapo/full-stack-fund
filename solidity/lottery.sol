@@ -1,4 +1,6 @@
 pragma solidity ^0.4.0;
+import "./MasterContract.sol";
+// https://ethereum.stackexchange.com/questions/26674/deploying-abstract-contracts-and-interfaces?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 // addActivePlayer - there was a  param {value: web3.toWei(1, 'ether') } sent when web3 invocated this method...thats how the Lottery Contract gets the eth.
 // no need to capture a 'balance' member variable because ether send to Contract Address, which has a native balance
@@ -10,6 +12,8 @@ contract Lottery {
     uint public maxPlayers;
     address owner;
     address[] public activePlayers;
+    address masterContractAddress;
+    // MasterContract master;
 
     event eLog (
         address indexed _from,
@@ -21,6 +25,9 @@ contract Lottery {
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
         owner = _owner; // TODO - should be sender? not owner of Master. maybe lottery creator isn't owner of MasterContract
+        // master = MasterContract(msg.sender);
+        // MasterContract master = MasterContract(msg.sender);
+        masterContractAddress = msg.sender;
     }
 
     function addActivePlayer(address player, uint etherAmount) public payable {
@@ -31,7 +38,7 @@ contract Lottery {
             emit eLog(msg.sender, player, "etherAmount sent was not the same as minEther"); // METP, minEther ToPlayWith
         }
         if (activePlayers.length == maxPlayers) {
-            // 1 - randomWinnter() Winner should receive money successfully before the House takes a Fee
+            // 1 - randomWinner() Winner should receive money successfully before the House takes a Fee
             uint randomNumber = 1;
             address winner = activePlayers[randomNumber];
             winner.transfer(address(this).balance);
@@ -42,9 +49,9 @@ contract Lottery {
             //uint fee = (this.balance * numerator) / denominator;
             //owner.transfer(fee); // does this substract it from this.balance??? 
             
-            // 3 - selfdestruct()
-            // https://en.wikiquote.org/wiki/Inspector_Gadget
+            // 3 - remove from MasterContract lotteries[] and selfdestruct() https://en.wikiquote.org/wiki/Inspector_Gadget
             emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); // this wont run if you call it after selfdestruct, for obvious reason
+            // master.removeLottery();
             selfdestruct(address(this)); // doesnt remove the lottery from MasterContract.sol's Lottery[]
             //
         } else {

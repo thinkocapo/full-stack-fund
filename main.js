@@ -1,4 +1,5 @@
 /*
+
 /$$             /$$     /$$                                                   /$$       /$$          
 | $$            | $$    | $/                                                  | $$      | $$          
 | $$  /$$$$$$  /$$$$$$  |_/   /$$$$$$$        /$$$$$$   /$$$$$$  /$$$$$$/$$$$ | $$$$$$$ | $$  /$$$$$$ 
@@ -14,6 +15,7 @@
     First run a local ethereum blockchain (ganache-cli testrpc), and Run setup.js
     Paste these into node.js console, after running setup.js, which starts the node.js repl for you
     Master Contract was already deployed via setup.js
+
 */
 
 // 1 - Deploy the Master Contract
@@ -34,7 +36,7 @@ function setEventEmitLogM() {
     var masterContractInstance = MasterContract.at(masterContract.address);
     var event2 = masterContractInstance.eLog();
     event2.watch(function (error, result) { 
-        if (!error) { console.log(emitText, result.args);} else {console.log(error)}
+        if (!error) { return console.log(emitText, result.args);} else { return console.log(error)}
     })
 }
 
@@ -68,7 +70,6 @@ web3.eth.getCode(lotteryAddress)
 // logs '0x0' if it was selfdestructed
 
 
-var lotteryAddress = masterContract.getNewLotteryAddress.call();
 // TODO `var lotteryMade = masterContract.createLottery(` doesn't return a new lottery? however it still deploys and can access it via ``
 // lotteryContract.getActivePlayers(); // doesn't work anymore, because lottery contract was selfdestructed. comment out the selfdestruct in lottery.sol if you want this to work
 // balance(lotteryAddress); // logs 0 even if the address was selfdestructed. if you comment out the selfdestruct in lottery.sol, it should still log 0, because balance was transferred to the Winner
