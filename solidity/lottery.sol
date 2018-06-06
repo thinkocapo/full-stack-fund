@@ -1,5 +1,5 @@
 pragma solidity ^0.4.0;
-import "./MasterContract.sol";
+// import "./MasterContract.sol";
 // https://ethereum.stackexchange.com/questions/26674/deploying-abstract-contracts-and-interfaces?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 // addActivePlayer - there was a  param {value: web3.toWei(1, 'ether') } sent when web3 invocated this method...thats how the Lottery Contract gets the eth.

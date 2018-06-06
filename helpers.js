@@ -57,7 +57,7 @@ module.exports = class Helpers {
     getContract (contractName, address) {
       var source = this.loadContract(contractName)
       var compiled = solc.compile(source)
-      console.log('\n.....compiled .....\n', compiled)
+      // console.log('\n.....compiled .....\n', compiled)
       var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
       var Contract = global.web3.eth.contract(abi)
       var contract = Contract.at(address)
