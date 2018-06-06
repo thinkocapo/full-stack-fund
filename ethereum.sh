@@ -1,0 +1,1 @@
+tmux new-session -t ethereum \; split-window -v -c ~/your-path/full-stack-fund \; send-keys -t 0 'ganache-cli testrpc' C-m \; send-keys -t 1 'node setup.js' \; new-window -c ~/your-path/full-stack-fund -d
