@@ -62,8 +62,8 @@ contract Lottery {
             
             // 3
             // https://en.wikiquote.org/wiki/Inspector_Gadget
+            emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); // this wont run if you call it after selfdestruct, for obvious reason
             selfdestruct(address(this)); // doesnt remove the lottery from MasterContract.sol's Lottery[]
-            emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructed");
         } else {
             emit eLog(msg.sender, player, "the lottery was not filled yet");
         }
