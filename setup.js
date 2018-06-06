@@ -2,7 +2,8 @@
 // Before running setup.js, initialize a local blockchain, Loads test accounts and MasterContract into your locally running blockchain on localhost:8545:
 // ganache-cli testrpc
 // The last line of this file starts a Node.js repl console, and main.js has commands for us to paste into it
-// (Or send them as input to the console using tmux) 
+// (Or send them as input to the console using tmux)
+// ethereum.sh can run this file for you and setup up your terminal panes, if you have tmux
 
 // import Helpers from './helpers'
 class Helpers {
