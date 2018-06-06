@@ -1,6 +1,6 @@
-export class Helpers {
+module.exports = class Helpers {
 
-    balance(contract) {
+    balance (contract) {
       switch(typeof(contract)) {
         case "object":
           if(contract.address) {
@@ -22,7 +22,7 @@ export class Helpers {
      * compiled.contracts['Lottery.sol:Lottery'.bytecode]
      * creates all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
      */
-    createAndDeployContracts(source, options={}) {
+    createAndDeployContracts (source, options={}) {
       // create input object by reading from directory
       var input = {
         'Lottery.sol': this.loadContract('Lottery'),
@@ -53,7 +53,8 @@ export class Helpers {
     }
   
     // TODO get abi from the MasterContract(?) that has all, {source: input} ?
-    getContract(contractName, address) {
+    // Contract.at(address) because multiple lottery contracts will get made, meaning multiple addresses with same abi code
+    getContract (contractName, address) {
       var source = this.loadContract(contractName)
       var compiled = solc.compile(source)
       var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
@@ -62,8 +63,10 @@ export class Helpers {
       return contract
     }
   
-    loadContract(name) {
+    loadContract (name) {
       var path = `./solidity/${name}.sol`
       return fs.readFileSync(path, 'utf8')
     }  
+
+    toWei (E) { return global.web3.toWei(E, 'ether') }
   }
