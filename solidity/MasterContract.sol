@@ -23,6 +23,18 @@ contract MasterContract {
         lotteries.push(newLottery);
     }
 
+    // Modifier - only if the msg.sender IS the lottery contract address (AND it was in Lottery[]?)
+    // no one has privateKey/ability to imitate the Lottery Contract being the caller/msg.sender?
+    // i.e.
+    // modifier - only the Lottery Contract can call this method
+    // can use a better keyword than public? what if make private?
+    // set exclusive access
+    // Return BOOL so don't need 'public payable' to suppress warning, "Function state mutability can be restricted to pure function removeLottery() public { ^ (Relevant source part starts here and spans across multiple lines)."
+    function removeLottery() public payable {
+
+    }
+
+
     function getLotteries() public view returns (Lottery[]) {
         return lotteries;
     }
