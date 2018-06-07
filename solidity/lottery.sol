@@ -39,6 +39,8 @@ contract Lottery {
         }
         if (activePlayers.length == maxPlayers) {
             // 1 - randomWinner() Winner should receive money successfully before the House takes a Fee
+            // ORACLIZE...
+            
             uint randomNumber = 1;
             address winner = activePlayers[randomNumber];
             winner.transfer(address(this).balance);
