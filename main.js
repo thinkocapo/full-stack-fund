@@ -46,7 +46,7 @@ masterContract.createLottery(
     {from: acct1, gas: 4612388, gasPrice: 5, value: wei }
 )
 var lotteryAddress = masterContract.getNewLotteryAddress.call();
-var lotteryContract = getContract('Lottery', lotteryAddress); // *
+var lotteryContract = getContract('Lottery', lotteryAddress);
 
 setEventEmitLogL()
 setEventEmitLogM()
