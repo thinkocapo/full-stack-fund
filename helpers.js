@@ -22,8 +22,7 @@ module.exports = class Helpers {
      * compiled.contracts['Lottery.sol:Lottery'.bytecode]
      * creates all .sol abi/bytecodes and deploy contracts['MasterContract.sol:MasterContract']
      */
-    createAndDeployContracts (source, options={}) {
-      // create input object by reading from directory
+    compileContractsAndDeployMasterContract (source, options={}) {
       var input = {
         'Lottery.sol': this.loadContract('Lottery'),
         'MasterContract.sol': this.loadContract('MasterContract')
@@ -51,6 +50,37 @@ module.exports = class Helpers {
       return deployed
   
     }
+
+    // if 2 separate .sol files use abi from compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+    compileContractsAndDeployMasterContract1File (source, options={}) {
+      var source = this.loadContract('Master')
+
+      let compiled, contractName, bytecode
+      let compiledContract
+      try {
+        compiled = solc.compile(source);
+        // console.log('....compiled MasterContract.sol 1File....COMPILED.CONTRACTS', compiled.contracts)
+        // console.log('....compiled MasterContract.sol 1File....COMPILED.CONTRACTS.:MASTER', compiled.contracts[":Master"])
+        
+        contractName = 'Master'
+        compiledContract = compiled["contracts"][`:${contractName}`]
+        // console.log('....compiled MasterContract.sol 1File....', compiledContract)
+        bytecode = compiledContract["bytecode"]
+      } catch (err) { console.log('ERROR in compilation, no bytecode available')}
+
+      var abi = JSON.parse(compiledContract["interface"])
+      var contract = global.web3.eth.contract(abi)
+      var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
+
+      var deployed = contract.new(Object.assign({
+        from: global.web3.eth.accounts[0],
+        data: bytecode,
+        gas: gasEstimate,
+        gasPrice: 5
+        // value: web3.toWei(1, 'ether')
+      }, options), (error, masterContract) => {}) // masterContract.address
+      return deployed
+    }
   
     // TODO get abi from the MasterContract(?) that has all, {source: input} ?
     // Contract.at(address) because multiple lottery contracts will get made, meaning multiple addresses with same abi code
@@ -62,9 +92,21 @@ module.exports = class Helpers {
       var contract = Contract.at(address)
       return contract
     }
+
+    getContract1File (contractName, address) {
+      var source = this.loadContract("Master")
+      var compiled = solc.compile(source)
+      
+      compiledContract = compiled["contracts"][`:${contractName}`]
+      var abi = JSON.parse(compiledContract["interface"])
+      var Contract = global.web3.eth.contract(abi)
+      var contract = Contract.at(address)
+      return contract
+    }
   
     loadContract (name) {
       var path = `./solidity/${name}.sol`
+      console.log('PATH', path)
       return fs.readFileSync(path, 'utf8')
     }  
 

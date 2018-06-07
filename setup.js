@@ -3,7 +3,7 @@
 // The command to initialize your blockchain is ganache-cli testrpc
 // The last line of setup.js starts a Node.js repl console, and main.js has commands we'll paste into the repl console
 // Or you can send the commands directly to the repl (like piping or stdin) using tmux, I need to setup a tmux plugin for that still.
-// const { balance, createAndDeployContracts } = new Helpers() // loses 'this' context if don't call it off of helpers - 'cannot read property loadContract of undefined'
+// const { balance, compileContractsAndDeployMasterContract } = new Helpers() // loses 'this' context if don't call it off of helpers - 'cannot read property loadContract of undefined'
 
 const Helpers = require('./helpers')
 
@@ -25,7 +25,9 @@ global.acct5 = web3.eth.accounts[4]
 
 const helpers = new Helpers()
 
-global.masterContract = helpers.createAndDeployContracts()
+// global.masterContract = helpers.compileContractsAndDeployMasterContract()
+global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
+
 global.balance = helpers.balance
 global.getContract = helpers.getContract.bind(helpers)
 global.toWei = helpers.toWei
