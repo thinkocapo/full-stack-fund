@@ -370,6 +370,7 @@ contract Lottery is usingOraclize {
 
     // So you know which specific request to the service is getting called back
     function __callback(bytes32 _oraclizeID, string _result) public {
+        // TODO logger using bytes32 _oraclizeID?
         emit eLog(msg.sender, msg.sender, "__callback RESULT...");
         if(msg.sender != oraclize_cbAddress()) revert(); // throw;
         result = _result;
@@ -390,6 +391,12 @@ contract Lottery is usingOraclize {
         masterContractAddress = msg.sender;
     }
 
+
+    // 2 - payouts()
+    //uint numerator = 1;
+    //uint denominator = 100;
+    //uint fee = (this.balance * numerator) / denominator;
+    //owner.transfer(fee); // does this substract it from this.balance??? 
     function addActivePlayer(address player, uint etherAmount) public payable {
         if (etherAmount == etherContribution) {
             emit eLog(msg.sender, player, "value equals ether contribution, add player");
@@ -401,24 +408,21 @@ contract Lottery is usingOraclize {
         if (activePlayers.length == maxPlayers) {
             // ORACLIZE
             // id of the specific request to the service...
-            // oraclizeID = oraclize_query("WolframAlpha", "flip a coin"); // data source and data input string,  URL is defualt
+            oraclizeID = oraclize_query("WolframAlpha", "flip a coin"); // data source and data input string,  URL is defualt
             // emit eLog(msg.sender, player, result);
 
+            // PUT BACK...
             // 1 - randomWinner() Winner should receive money successfully before the House takes a Fee
-            uint randomNumber = 1;
-            address winner = activePlayers[randomNumber];
-            winner.transfer(address(this).balance);
+            // uint randomNumber = 1;
+            // address winner = activePlayers[randomNumber];
+            // winner.transfer(address(this).balance);
             
-            // 2 - payouts()
-            //uint numerator = 1;
-            //uint denominator = 100;
-            //uint fee = (this.balance * numerator) / denominator;
-            //owner.transfer(fee); // does this substract it from this.balance??? 
-            
+
+            // PUT BACK...
             // 3 - remove from MasterContract lotteries[] and selfdestruct() https://en.wikiquote.org/wiki/Inspector_Gadget
-            emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); // this wont run if you call it after selfdestruct, for obvious reason
-            master.removeLottery();
-            selfdestruct(address(this)); // doesnt remove the lottery from MasterContract.sol's Lottery[]
+            // emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); // this wont run if you call it after selfdestruct, for obvious reason
+            // master.removeLottery();
+            // selfdestruct(address(this)); // doesnt remove the lottery from MasterContract.sol's Lottery[]
             //
         } else {
             emit eLog(msg.sender, player, "the lottery was not filled yet");
