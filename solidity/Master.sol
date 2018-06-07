@@ -80,7 +80,16 @@ contract Lottery {
     address[] public activePlayers;
     address masterContractAddress;
     Master master;
-
+    
+    // ORACLIZE
+    string public result;
+    bytes32 public oraclizeID;
+    function __callback(bytes32 _oraclizeID, string _result) {
+        if(msg.sender != oraclize_cbAddress()) throw;
+        result = _result;
+    }
+    
+    
     event eLog (
         address indexed _from,
         address indexed player,
@@ -103,6 +112,9 @@ contract Lottery {
             emit eLog(msg.sender, player, "etherAmount sent was not the same as minEther"); // METP, minEther ToPlayWith
         }
         if (activePlayers.length == maxPlayers) {
+            // ORACLIZE
+            oraclizeID = oraclize_query("WolframAlpha", "flip a coin");
+
             // 1 - randomWinner() Winner should receive money successfully before the House takes a Fee
             uint randomNumber = 1;
             address winner = activePlayers[randomNumber];
