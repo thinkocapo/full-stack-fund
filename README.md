@@ -118,3 +118,30 @@ use mapping or other workaround
 https://ethereum.stackexchange.com/questions/12537/how-to-search-string-in-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 cyclic imports - supposedley fixed. Lotter and MasterContract can't import each other
+
+
+changes lotteries[] from ['0x1234'] to ['0x0000]    
+```
+delete lotteries[i]; 
+```
+so instead use:
+```
+        for (uint i = 0; i < numLotteries; i++) {
+            Lottery lottery = lotteries[i];
+            if (lottery == lotteryToRemove) {
+                emit eLog(msg.sender, "removing.....delete");
+                for (uint index = i; index < numLotteries-1; i++){
+                    // RE-SHIFTING ALL the elements 1 index to the left, starting from the element we don't want anymore
+                    lotteries[index] = lotteries[index+1];
+                }
+                lotteries.length--;
+                emit eLog(msg.sender, "removing.....deleted, re-check lotteries[]");
+            }
+        }
+```
+
+
+`var lotteryMade = masterContract.createLottery(` doesn't return a new lottery? however it still deploys and can access it via...
+
+
+// balance(lotteryAddress); // logs 0 even if the address was selfdestructed. if you comment out the selfdestruct in lottery.sol, it should still log 0, because balance was transferred to the Winner

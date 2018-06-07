@@ -69,8 +69,4 @@ balance(acct1);
 balance(acct2);
 web3.eth.getCode(lotteryAddress)
 // logs '0x0' if it was selfdestructed
-
-
-// TODO `var lotteryMade = masterContract.createLottery(` doesn't return a new lottery? however it still deploys and can access it via ``
-// lotteryContract.getActivePlayers(); // doesn't work anymore, because lottery contract was selfdestructed. comment out the selfdestruct in lottery.sol if you want this to work
-// balance(lotteryAddress); // logs 0 even if the address was selfdestructed. if you comment out the selfdestruct in lottery.sol, it should still log 0, because balance was transferred to the Winner
+masterContract.getLotteries.call(); // should log empty [], so lotteryContract no longer exists, its 0x00000
