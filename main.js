@@ -18,7 +18,8 @@
 
 */
 
-// 1 - Deploy the Master Contract
+// 1 - Deploy the Lottery Contract
+masterContract.address
 const wei = toWei(5)
 const emitText = 'emit event.watch\n'
 function setEventEmitLogL() {
@@ -45,7 +46,7 @@ masterContract.createLottery(
     {from: acct1, gas: 4612388, gasPrice: 5, value: wei }
 )
 var lotteryAddress = masterContract.getNewLotteryAddress.call();
-var lotteryContract = getContract('Lottery', lotteryAddress);     
+var lotteryContract = getContract('Lottery', lotteryAddress); // *
 
 setEventEmitLogL()
 setEventEmitLogM()

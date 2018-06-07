@@ -25,8 +25,8 @@ global.acct5 = web3.eth.accounts[4]
 
 const helpers = new Helpers()
 
-global.masterContract = helpers.compileContractsAndDeployMasterContract()
-// global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
+// global.masterContract = helpers.compileContractsAndDeployMasterContract()
+global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
 
 global.balance = helpers.balance
 global.getContract = helpers.getContract.bind(helpers)
