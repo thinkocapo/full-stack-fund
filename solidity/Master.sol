@@ -14,7 +14,6 @@ contract Master {
         owner = msg.sender;
     }
 
-    // TODO - If openlottery with same etherContribution, maxPlayers, then call addActivePlayer on that lottery, otherwise, continue below...
     // don't need _etherContribution, use msg.value instead? but what they're declaring should match what they're sending...Design choice...
     // msg.value goes to the new lottery contract because of .value(msg.value), and user's invocation had {value: web3.toWei(1, 'ether')}
     // .addActivePlayer takes in msg.value as a arbitrary number
@@ -43,7 +42,7 @@ contract Master {
     // delete lotteries[i]; changes lotteries[] from ['0x1234'] to ['0x0000]    
     // need payable ot else "Function state mutability can be restricted to pure function removeLottery() public { ^ (Relevant source part starts here and spans across multiple lines)."
     function removeLottery() onlyBy public payable { 
-        emit eLog(msg.sender, "removeLottery() ...");                    
+        emit eLog(msg.sender, "removeLottery()");                    
         address lotteryToRemove = msg.sender;
         uint256 numLotteries = lotteries.length;
         for (uint i = 0; i < numLotteries; i++) {
@@ -138,26 +137,3 @@ contract Lottery {
         return owner;
     }
 }
-
-// DEV OBSERVATIONS
-// 1 Master getLottery 2 addPlayer() <-- would have to pay gas twice? because two transactions?
-// 1 Master addPlayer(lotteryAddress) and Contract addPlayer(msg.sender)
-// HOWEVER this would allow for 1 smart contract call, instead of 2.
-// * dont need this because If you already have lottery address, then don't bother going through Master Contract *
-// function addPlayer(address lotteryAddress) public payable {
-    // lotteryAddress.activePlayers.push(msg.sender) // won't send ether to it
-    // lotteryAddress.addPlayer(msg.sender);
-    // lotteryAddress.send(msg.value);
-    // or
-    // Lottery lottery = Lottery(lotteryAddress)
-    //lottery.addActivePlayer(msg.sender);        
-    // repeat...
-// }
-
-// Need function for updating owner to new owner, only callable by the current owner
-// modifier onlyOwner() {
-//     if (msg.sender == owner) {
-//         _;
-//     }
-// }
-// getMaxPlayers returns { [String: '5'] s: 1, e: 0, c: [ 5 ] }

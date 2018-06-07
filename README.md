@@ -145,3 +145,6 @@ so instead use:
 
 
 // balance(lotteryAddress); // logs 0 even if the address was selfdestructed. if you comment out the selfdestruct in lottery.sol, it should still log 0, because balance was transferred to the Winner
+
+
+getMaxPlayers returns `{ [String: '5'] s: 1, e: 0, c: [ 5 ] }`
