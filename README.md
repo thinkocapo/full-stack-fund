@@ -148,3 +148,10 @@ so instead use:
 
 
 getMaxPlayers returns `{ [String: '5'] s: 1, e: 0, c: [ 5 ] }`
+
+
+Because need Remix compiler, or to provide mapping: https://ethereum.stackexchange.com/questions/13067/importing-contracts-files-to-ethereum-wallet?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+```
+import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
+Source "github.com/oraclize/ethereum-api/oraclizeAPI.sol" not found
+```
