@@ -1,11 +1,12 @@
 pragma solidity ^0.4.0;
 //import oraclizeAPI_pre0.4.sol when solidity < 0.4.0
-// import "./OraclizeAPI.sol";
+import "./oraclizeAPI.sol";
+
 // June 8 2018
 // import "https://github.com/oraclize/ethereum-api/oraclizeAPI.sol"; // NOT FOUND, URL 
 // import "http://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI.sol";
 // import "github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.4.sol";
-import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
+// import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract CoinFlipOracle is usingOraclize {
 

@@ -27,8 +27,9 @@ const helpers = new Helpers()
 
 // global.masterContract = helpers.compileContractsAndDeployMasterContract()
 // global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
-global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract1File()
-// global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract()
+
+// global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract1File()
+global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract()
 
 global.balance = helpers.balance
 global.getContract = helpers.getContract.bind(helpers) // TODO getContract1File....

@@ -115,7 +115,7 @@ module.exports = class Helpers {
     compileAndDeployCoinFlipOracleContract (options = {}) {
       var input = {
         'CoinFlipOracle.sol': this.loadContract('CoinFlipOracle'),
-        'OraclizeAPI.sol': this.loadContract('OraclizeAPI')
+        'oraclizeAPI.sol': this.loadContract('oraclizeAPI')
       };
       
       let compiled, contractName, bytecode
@@ -124,7 +124,6 @@ module.exports = class Helpers {
         console.log('....compiled CoinFlipOracle.sol OraclizeAPI.sol together successfully....compiled', compiled)
         contractName = 'CoinFlipOracle'
         bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
-        console.log('....compiled CoinFlipOracle.sol OraclizeAPI.sol together successfully....bytecode', bytecode)
       } catch (err) { console.log('ERROR in compilation....')}
       
       var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
@@ -142,13 +141,15 @@ module.exports = class Helpers {
     }
 
     compileAndDeployCoinFlipOracleContract1File (options ={}) {
+      console.log('****  compileAndDeployCoinFlipOracleContract1File  ****')
+
       var source = this.loadContract('CoinFlipOracle')
 
       let compiled, contractName, bytecode
       let compiledContract
       try {
         compiled = solc.compile(source);
-        console.log('....compiled compileAndDeployCoinFlipOracleContract1File....compiled', compiled)
+        console.log('....compiled compileAndDeployCoinFlipOracleContract1File....compiled\n', compiled)
         
         contractName = 'CoinFlipOracle'
         compiledContract = compiled["contracts"][`:${contractName}`]
