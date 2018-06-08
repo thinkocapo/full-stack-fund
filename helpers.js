@@ -55,15 +55,11 @@ module.exports = class Helpers {
     compileContractsAndDeployMasterContract1File (source, options={}) {
       var source = this.loadContract('Master')
 
-      let compiled, contractName, bytecode
+      let compiled, bytecode
       let compiledContract
       try {
         compiled = solc.compile(source);
-        // console.log('....compiled MasterContract.sol 1File....COMPILED.CONTRACTS', compiled.contracts)
-        // console.log('....compiled MasterContract.sol 1File....COMPILED.CONTRACTS.:MASTER', compiled.contracts[":Master"])
-        
-        contractName = 'Master'
-        compiledContract = compiled["contracts"][`:${contractName}`]
+        compiledContract = compiled["contracts"][`:Master`]
         // console.log('....compiled MasterContract.sol 1File....', compiledContract)
         bytecode = compiledContract["bytecode"]
       } catch (err) { console.log('ERROR in compilation, no bytecode available')}
