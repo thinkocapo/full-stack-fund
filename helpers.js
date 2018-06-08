@@ -121,7 +121,6 @@ module.exports = class Helpers {
       let compiled, contractName, bytecode
       try {
         compiled = solc.compile({sources: input}, 1);
-        console.log('....compiled CoinFlipOracle.sol OraclizeAPI.sol together successfully....compiled', compiled)
         contractName = 'CoinFlipOracle'
         bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
       } catch (err) { console.log('ERROR in compilation....')}
@@ -141,8 +140,6 @@ module.exports = class Helpers {
     }
 
     compileAndDeployCoinFlipOracleContract1File (options ={}) {
-      console.log('****  compileAndDeployCoinFlipOracleContract1File  ****')
-
       var source = this.loadContract('CoinFlipOracle')
 
       let compiled, contractName, bytecode

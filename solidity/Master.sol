@@ -376,7 +376,6 @@ contract Lottery is usingOraclize {
         result = _result;
     }
     
-    
     event eLog (
         address indexed _from,
         address indexed player,
@@ -392,38 +391,39 @@ contract Lottery is usingOraclize {
     }
 
 
-    // 2 - payouts()
-    //uint numerator = 1;
-    //uint denominator = 100;
-    //uint fee = (this.balance * numerator) / denominator;
-    //owner.transfer(fee); // does this substract it from this.balance??? 
+    /*
+    06/08/18 Hold-off https://github.com/thinkocapo/full-stack-fund/pull/29 https://github.com/thinkocapo/full-stack-fund/issues/30 
+    oraclizeID = oraclize_query("WolframAlpha", "flip a coin"); // data source and data input string,  URL is defualt. ID of the request, compare it in the __callback
+    __callback from oraclize could call the rest of this...
+    */
     function addActivePlayer(address player, uint etherAmount) public payable {
         if (etherAmount == etherContribution) {
             emit eLog(msg.sender, player, "value equals ether contribution, add player");
             activePlayers.push(player);
         } else {
             emit eLog(msg.sender, player, "etherAmount sent was not the same as minEther"); // METP, minEther ToPlayWith
-            // TODO revert(); or throw;
+            revert();
         }
         if (activePlayers.length == maxPlayers) {
-            // ORACLIZE
-            // id of the specific request to the service...
-            oraclizeID = oraclize_query("WolframAlpha", "flip a coin"); // data source and data input string,  URL is defualt
-            // emit eLog(msg.sender, player, result);
+            
+            // 1 Select Winner - and should receive money successfully before the House takes a Fee
+            uint randomNumber = 1;
+            address winner = activePlayers[randomNumber];
 
-            // PUT BACK...
-            // 1 - randomWinner() Winner should receive money successfully before the House takes a Fee
-            // uint randomNumber = 1;
-            // address winner = activePlayers[randomNumber];
-            // winner.transfer(address(this).balance);
+            // 2 Payouts - House Fee and Winner Payout
+            // Calculate House Fee 1%...
+                //uint numerator = 1;
+                //uint denominator = 100;
+                //uint fee = (this.balance * numerator) / denominator;
+            //owner.transfer(fee); // does this substract it from this.balance?
+            winner.transfer(address(this).balance);
             
 
-            // PUT BACK...
-            // 3 - remove from MasterContract lotteries[] and selfdestruct() https://en.wikiquote.org/wiki/Inspector_Gadget
-            // emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); // this wont run if you call it after selfdestruct, for obvious reason
-            // master.removeLottery();
-            // selfdestruct(address(this)); // doesnt remove the lottery from MasterContract.sol's Lottery[]
-            //
+            // 3 - Call selfdestruct and remove the lottery from MasterContract's lotteries[]
+            emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); 
+            master.removeLottery();
+            selfdestruct(address(this)); // https://en.wikiquote.org/wiki/Inspector_Gadget
+            // can't call eLog or anything on the lottery anymore, because it no longer exists
         } else {
             emit eLog(msg.sender, player, "the lottery was not filled yet");
         }

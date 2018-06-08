@@ -155,3 +155,6 @@ Because need Remix compiler, or to provide mapping: https://ethereum.stackexchan
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 Source "github.com/oraclize/ethereum-api/oraclizeAPI.sol" not found
 ```
+
+
+https://github.com/oraclize/ethereum-studio-examples/blob/master/contracts/lib/oraclizeAPI.sol
