@@ -25,11 +25,14 @@ global.acct5 = web3.eth.accounts[4]
 
 const helpers = new Helpers()
 
-// global.masterContract = helpers.compileContractsAndDeployMasterContract()
+// global.masterContract = helpers.compileContractsAndDeployMasterContract() OLD attempt
 global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
 
+// global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract1File()
+// global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract()
+
 global.balance = helpers.balance
-global.getContract = helpers.getContract.bind(helpers)
+global.getContract = helpers.getContract.bind(helpers) // TODO getContract1File....
 global.toWei = helpers.toWei
 
 console.log(`....MasterContract was deployed and is available as 'masterContract' global object....\n`)

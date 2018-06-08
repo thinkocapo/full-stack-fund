@@ -111,4 +111,59 @@ module.exports = class Helpers {
     }  
 
     toWei (E) { return global.web3.toWei(E, 'ether') }
+
+    compileAndDeployCoinFlipOracleContract (options = {}) {
+      var input = {
+        'CoinFlipOracle.sol': this.loadContract('CoinFlipOracle'),
+        'oraclizeAPI.sol': this.loadContract('oraclizeAPI')
+      };
+      
+      let compiled, contractName, bytecode
+      try {
+        compiled = solc.compile({sources: input}, 1);
+        contractName = 'CoinFlipOracle'
+        bytecode = compiled["contracts"][`${contractName}.sol:${contractName}`]["bytecode"]
+      } catch (err) { console.log('ERROR in compilation....')}
+      
+      var abi = JSON.parse(compiled["contracts"][`${contractName}.sol:${contractName}`]["interface"])
+      var contract = global.web3.eth.contract(abi)
+      var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
+  
+      var deployed = contract.new(Object.assign({
+        from: global.web3.eth.accounts[0],
+        data: bytecode,
+        gas: gasEstimate,
+        gasPrice: 5
+        // value: web3.toWei(1, 'ether')
+      }, options), (error, masterContract) => {})
+      return deployed
+    }
+
+    compileAndDeployCoinFlipOracleContract1File (options ={}) {
+      var source = this.loadContract('CoinFlipOracle')
+
+      let compiled, contractName, bytecode
+      let compiledContract
+      try {
+        compiled = solc.compile(source);
+        console.log('....compiled compileAndDeployCoinFlipOracleContract1File....compiled\n', compiled)
+        
+        contractName = 'CoinFlipOracle'
+        compiledContract = compiled["contracts"][`:${contractName}`]
+        bytecode = compiledContract["bytecode"]
+      } catch (err) { console.log('ERROR in compilation, no bytecode available')}
+
+      var abi = JSON.parse(compiledContract["interface"])
+      var contract = global.web3.eth.contract(abi)
+      var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
+
+      var deployed = contract.new(Object.assign({
+        from: global.web3.eth.accounts[0],
+        data: bytecode,
+        gas: gasEstimate,
+        gasPrice: 5
+        // value: web3.toWei(1, 'ether')
+      }, options), (error, masterContract) => {}) // masterContract.address
+      return deployed
+    }
   }
