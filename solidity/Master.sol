@@ -10,6 +10,7 @@ contract Master {
         string value
     );
 
+    // MASTERCONTRACTOWNER ... ***
     function Master () public payable {
         owner = msg.sender;
     }
@@ -18,8 +19,10 @@ contract Master {
     // msg.value goes to the new lottery contract because of .value(msg.value), and user's invocation had {value: web3.toWei(1, 'ether')}
     // .addActivePlayer takes in msg.value as a arbitrary number
     function createLottery(uint _etherContribution, uint _maxPlayers) public payable {
-        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, owner);
-        newLottery.addActivePlayer(owner, msg.value); // delegate call to set msg.sender in Lottery as same addr as msg.sender in MasterContract
+        Lottery newLottery = (new Lottery).value(msg.value)(_etherContribution, _maxPlayers, owner); // msg.sender not owner ***
+        // delegatecall so can access the msg.sender from Master?
+        // delegate call to set msg.sender in Lottery as same addr as msg.sender in MasterContract
+        newLottery.addActivePlayer(owner, msg.value); // msg.sender not owner ***
         newLotteryAddress = address(newLottery);
         lotteries.push(newLottery);
     }
@@ -86,7 +89,6 @@ contract Lottery {
     uint public maxPlayers;
     address owner;
     address[] public activePlayers;
-    address masterContractAddress;
     Master master;
     
     event eLog (
@@ -96,12 +98,14 @@ contract Lottery {
         string value
     );
 
+    // MASTERCONTRACTOWNER in 3 places... starting with LotteryConstructor param _masterContractOwner
     function Lottery (uint _etherContribution, uint _maxPlayers, address _owner) public payable { // address sender
+        // param to record masterContractOwner's address?
         etherContribution = _etherContribution;
         maxPlayers = _maxPlayers;
-        owner = _owner; // TODO - should be sender? not owner of Master. maybe lottery creator isn't owner of MasterContract
-        master = Master(msg.sender);
-        masterContractAddress = msg.sender;
+        owner = _owner; // TODO - should be sender? not owner of Master. because maybe lottery creator isn't owner of MasterContract
+        master = Master(msg.sender); // should be masterAddress?, or the param address_owner??
+        // master = Master(masterOwner?)
     }
 
 
@@ -111,7 +115,7 @@ contract Lottery {
     oraclizeID = oraclize_query("WolframAlpha", "flip a coin"); // data source and data input string,  URL is defualt. ID of the request, compare it in the __callback
     __callback from oraclize could call the rest of this...
     */
-    // Pay Winner - should really happen before house gets paid their fee...
+    // Pay Winner - should really happen before house gets paid their fee... winner.transfer(address(this).balance - fee);
     function addActivePlayer(address player, uint etherAmount) public payable {
         if (etherAmount == etherContribution) {
             emit eLog(msg.sender, player, "value equals ether contribution, add player");
@@ -122,11 +126,9 @@ contract Lottery {
         }
         if (activePlayers.length == maxPlayers) {
             // 1 Payout House Fee
-            uint fee = (address(this).balance * 25) / 100;
-            owner.transfer(fee);
-            // emit eLog(msg.sender, player, fee);
-
-
+            uint fee = (address(this).balance * 2) / 100;
+            owner.transfer(fee); // emit eLog(msg.sender, player, fee);
+            
             // 2 Pay Winner - should really happen before house gets paid their fee...
             uint randomNumber = 1;
             address winner = activePlayers[randomNumber]; // [acct, acct2] so selects acct2

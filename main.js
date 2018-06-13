@@ -67,7 +67,5 @@ lotteryContract.addActivePlayer(
 // 2nd CHECK - one player lost ether, and the other now has more than they started with
 balance(acct1);
 balance(acct2);
-web3.eth.getCode(lotteryAddress)
-// logs '0x0' if it was selfdestructed
-masterContract.getLotteries.call();
-// should log empty [], so lotteryContract no longer exists, its 0x00000
+web3.eth.getCode(lotteryAddress) // logs '0x0' if it was selfdestructed
+masterContract.getLotteries.call(); // should log empty [], so lotteryContract no longer exists, its 0x00000
