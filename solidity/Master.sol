@@ -41,14 +41,12 @@ contract Master {
     // function removeLottery(address _lotteryAddress) onlyBy public payable { // DON'T NEED arg, can use msg.sender instead
     // delete lotteries[i]; changes lotteries[] from ['0x1234'] to ['0x0000]    
     // need payable ot else "Function state mutability can be restricted to pure function removeLottery() public { ^ (Relevant source part starts here and spans across multiple lines)."
-    function removeLottery() onlyBy public payable { 
-        emit eLog(msg.sender, "removeLottery()");                    
+    function removeLottery() onlyBy public payable {              
         address lotteryToRemove = msg.sender;
         uint256 numLotteries = lotteries.length;
         for (uint i = 0; i < numLotteries; i++) {
             Lottery lottery = lotteries[i];
             if (lottery == lotteryToRemove) {
-                emit eLog(msg.sender, "removing.....delete");
                 for (uint index = i; index < numLotteries-1; i++){
                     lotteries[index] = lotteries[index+1];
                 }
@@ -94,8 +92,8 @@ contract Lottery {
     event eLog (
         address indexed _from,
         address indexed player,
-        uint fee
-        // string value
+        // uint fee, 
+        string value
     );
 
     function Lottery (uint _etherContribution, uint _maxPlayers, address _owner) public payable { // address sender
@@ -106,59 +104,42 @@ contract Lottery {
         masterContractAddress = msg.sender;
     }
 
-    // function percent(uint numerator, uint denominator, uint precision) public {
 
-    // }
-
-    function percent(uint numerator, uint denominator, uint precision, uint balance) internal pure returns(uint quotient) {
-        // caution, check safe-to-multiply here
-        // uint _numerator = numerator * 10 ** (precision+1);
-        // with rounding of last digit
-        // uint _quotient = ((_numerator / denominator) + 5) / 10;
-        // return ( _quotient);
-
-        uint _quotient = 10;
-        uint _numerator = _quotient * balance;
-    }
 
     /*
     06/08/18 Hold-off https://github.com/thinkocapo/full-stack-fund/pull/29 https://github.com/thinkocapo/full-stack-fund/issues/30 
     oraclizeID = oraclize_query("WolframAlpha", "flip a coin"); // data source and data input string,  URL is defualt. ID of the request, compare it in the __callback
     __callback from oraclize could call the rest of this...
     */
+    // Pay Winner - should really happen before house gets paid their fee...
     function addActivePlayer(address player, uint etherAmount) public payable {
         if (etherAmount == etherContribution) {
-            // emit eLog(msg.sender, player, "value equals ether contribution, add player");
+            emit eLog(msg.sender, player, "value equals ether contribution, add player");
             activePlayers.push(player);
         } else {
             // emit eLog(msg.sender, player, "etherAmount sent was not the same as minEther"); // METP, minEther ToPlayWith
             revert();
         }
         if (activePlayers.length == maxPlayers) {
-            
-            // 1 Select Winner - and should receive money successfully before the House takes a Fee
+            // 1 Payout House Fee
+            uint fee = (address(this).balance * 25) / 100;
+            owner.transfer(fee);
+            // emit eLog(msg.sender, player, fee);
+
+
+            // 2 Pay Winner - should really happen before house gets paid their fee...
             uint randomNumber = 1;
-            address winner = activePlayers[randomNumber];
-
-            // 2 Payouts - House Fee and Winner Payout
-            // Calculate House Fee 1%...
-            // uint numerator = 1;
-            // uint denominator = 100;
-            // uint256 fee = (address(this.balance) * numerator) / denominator;
-            uint fee = percent(1, 100, 3, address(this).balance);
-            
-            emit eLog(msg.sender, player, fee);
-            //owner.transfer(fee); // does this substract it from this.balance?
+            address winner = activePlayers[randomNumber]; // [acct, acct2] so selects acct2
             winner.transfer(address(this).balance);
-            
 
-            // 3 - Call selfdestruct and remove the lottery from MasterContract's lotteries[]
-            // emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing"); 
+
+
+            // 3 - Call selfdestruct, and remove the lottery from MasterContract's lotteries[]
+            emit eLog(msg.sender, player, "the lottery was filled. payout made...self-destructing and removing from Master Contract lotteries[]"); 
             master.removeLottery();
-            selfdestruct(address(this)); // https://en.wikiquote.org/wiki/Inspector_Gadget
-            // can't call eLog or anything on the lottery anymore, because it no longer exists
+            selfdestruct(address(this)); // https://en.wikiquote.org/wiki/Inspector_Gadget // can't call eLog or anything on the lottery anymore, because it no longer exists
         } else {
-            // emit eLog(msg.sender, player, "the lottery was not filled yet");
+            emit eLog(msg.sender, player, "the lottery was not filled yet");
         }
     }
 

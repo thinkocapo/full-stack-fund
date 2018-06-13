@@ -20,7 +20,7 @@
 
 // 1 - Deploy the Lottery Contract
 masterContract.address
-const wei = toWei(5)
+const wei = toWei(50)
 const emitText = 'emit event.watch\n'
 function setEventEmitLogL() {
     var abi = lotteryContract.abi

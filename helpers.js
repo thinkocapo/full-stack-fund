@@ -102,7 +102,6 @@ module.exports = class Helpers {
   
     loadContract (name) {
       var path = `./solidity/${name}.sol`
-      console.log('PATH', path)
       return fs.readFileSync(path, 'utf8')
     }  
 
