@@ -6,9 +6,8 @@ import ReduxPromise from 'redux-promise'
 import thunkMiddleware from 'redux-thunk'
 import { BrowserRouter } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import 'bootstrap/dist/css/bootstrap.css'
-// import './index.css';
+import './index.css';
 
 import reducers from './reducers';
 import App from './App'

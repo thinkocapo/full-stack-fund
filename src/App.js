@@ -17,9 +17,13 @@ import Links from './components/links'
 class App extends Component {
   render() {
     return (
-      <p>
-        <button type="button" className="btn btn-primary btn-lg">GAMBLE</button>
-      </p>
+      <div className="container">
+        <div className="row">
+          <div className="center-me">
+            <button type="button" className="btn btn-primary btn-lg">GAMBLE</button>
+          </div>
+        </div>      
+      </div>
     )
   }
 }
