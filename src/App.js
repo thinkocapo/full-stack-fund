@@ -17,22 +17,12 @@ import Links from './components/links'
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route exact path='/about-me' component={AboutMe} />
-          <Route exact path='/portfolio' component={Portfolio} />
-          <Route exact path='/links' component={Links} />
-        </Switch>
-      </Router>      
+      <p>
+        <button type="button" className="btn btn-primary btn-lg">GAMBLE</button>
+      </p>
     )
   }
 }
-
-//<Route exact path='/' component={Home} />
-//<Route exact path='/login' render={() => <Login/>} />
-//<Route exact path='/implicit/callback' component={ImplicitCallback} />
-//<SecureRoute  path='/' component={CaseManager} />
 
 
 function mapStateToProps(state, ownProps) {
