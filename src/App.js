@@ -1,18 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './components/home'
-import AboutMe from './components/about-me'
-import Portfolio from './components/portfolio'
-import Links from './components/links'
-
-// const App = ({ message = 'Hello Starter App!' }) => (
-//   <Button bsStyle='primary' bsSize='large'>{message}</Button>
-// )
-
-// App.propTypes = {
-//   message: React.PropTypes.string
-// }
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
 class App extends Component {
