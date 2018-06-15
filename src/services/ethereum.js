@@ -33,11 +33,12 @@ class Ethereum {
         
         // global.web3 = new Web3(Web3.currentProvider)) // must be loaded by a browser? *
 
-        const acct1 = web3.eth.accounts[0]
-        const acct2 = web3.eth.accounts[1]
-        const acct3 = web3.eth.accounts[2]
-        const acct4 = web3.eth.accounts[3]
-        const acct5 = web3.eth.accounts[4]
+        // NOT NEEDED, because we're accessing user accounts through Metamask
+        // const acct1 = web3.eth.accounts[0]
+        // const acct2 = web3.eth.accounts[1]
+        // const acct3 = web3.eth.accounts[2]
+        // const acct4 = web3.eth.accounts[3]
+        // const acct5 = web3.eth.accounts[4]
 
         const helpers = new Helpers()
         // global.masterContract = helpers.compileContractsAndDeployMasterContract() OLD attempt
