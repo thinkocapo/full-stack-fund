@@ -17,7 +17,6 @@ global.solc = require("solc")
 global.fs = require("fs")
 global.Web3 = require("web3")
 global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
-// global.web3 = new Web3(Web3.currentProvider)) // must be loaded by a browser? *
 
 global.acct1 = web3.eth.accounts[0]
 global.acct2 = web3.eth.accounts[1]

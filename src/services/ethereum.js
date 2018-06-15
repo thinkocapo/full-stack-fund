@@ -23,7 +23,12 @@ const config = {
 const solc = require("solc")
 const fs = require("fs")
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
+
+// OLD...from running solidity test (main.js) from command-line, using accounts on a local geth node, whose privateKeys were imported (i.e. we control them)
+// const web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
+
+// NEW... for working with Metamask. This file must be loaded by a browser? Because if you run it as a node.js script then .currentProvider won't find the browser!!! This is why it error'd when I tried.
+const web3 = new Web3(Web3.currentProvider)) // must be loaded by a browser? *
 
 class Ethereum {
     constructor() {
