@@ -1,10 +1,17 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import Ethereum from './services/ethereum'
 
 class App extends Component {
-
+  constructor () {
+    super()
+    this.state = {}
+    // this.state.ethereum = new Ethereum()
+    console.log('...ETHEREUM...',Ethereum)
+    this.state.ethereum = new Ethereum()
+    console.log('state.ethereum....',this.state.ethereum.mymethod())
+  }
   web3Ethereum () {
     // Thanks so much!! currentProvider is finally defined as metamask in the browser console. 
     // https://www.reddit.com/r/ethdev/comments/6wdj5q/can_someone_please_post_their_code_for_connecting/
