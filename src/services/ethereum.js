@@ -65,6 +65,7 @@ export default class Ethereum {
             console.log('web3js.currentProvider ...', web3js.currentProvider) // undefined *
           
             // but if you type web3.currentProvider into Chrome console, its there *
+            // ^^ still works even if comment out everything above...can open a new tab and still find web3...
 
             // Now you can start your app & access web3 freely:
             // startApp()
