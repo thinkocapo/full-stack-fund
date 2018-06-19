@@ -12,8 +12,8 @@ class App extends Component {
     super()
     
     this.ethereum = new Ethereum()
-    this.mymethod = this.ethereum.mymethod
-    this.mymethod();
+    // this.mymethod = this.ethereum.mymethod // WORKS
+    // this.mymethod();
   }
   web3Ethereum () {
     // Thanks so much!! currentProvider is finally defined as metamask in the browser console. 
