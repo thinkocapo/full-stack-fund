@@ -45,6 +45,7 @@ export default class Ethereum {
               // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail) * but localnode/hosted node won't have user's private keys, so this line is only for dev testing?
               console.log('constructor web3js no metamask...', web3js)
               web3js = new web3(new web3.providers.HttpProvider("http://localhost:8545"));
+              // Prompt User telling them to get Metamask - modal or set something in redux, have it display from a Component
             }
 
         })
