@@ -14,6 +14,9 @@ class App extends Component {
     this.ethereum = new Ethereum()
     // this.mymethod = this.ethereum.mymethod // WORKS
     // this.mymethod();
+    
+    // try methods for deploying first smart contract...
+    // maybe deploy Master Contract using a script because that only gets done once...
   }
   web3Ethereum () {
     // Thanks so much!! currentProvider is finally defined as metamask in the browser console. 
