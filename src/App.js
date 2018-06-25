@@ -11,12 +11,11 @@ class App extends Component {
   constructor () {
     super()
     
+    // Don't need compileContractsAndDeployMasterContract1File() from EthereumService... *
+    // Because that was already performed
     this.ethereum = new Ethereum()
-    // this.mymethod = this.ethereum.mymethod // WORKS
-    // this.mymethod();
     
-    // try methods for deploying first smart contract...
-    // maybe deploy Master Contract using a script because that only gets done once...
+    //  Deploy Master Contract using a script because that only gets done once...
   }
   web3Ethereum () {
     // Thanks so much!! currentProvider is finally defined as metamask in the browser console. 

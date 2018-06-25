@@ -1,10 +1,3 @@
-// ethereum.sh can run this file for you and set up your REPL and Blockchain nicely into  terminal panes, if you have tmux https://github.com/tmux/tmux
-// Before running setup.js, initialize a local blockchain, which loads test accounts and MasterContract into your locally running blockchain on localhost:8545.
-// The command to initialize your blockchain is ganache-cli testrpc
-// The last line of setup.js starts a Node.js repl console, and main.js has commands we'll paste into the repl console
-// Or you can send the commands directly to the repl (like piping or stdin) using tmux, I need to setup a tmux plugin for that still.
-// const { balance, compileContractsAndDeployMasterContract } = new Helpers() // loses 'this' context if don't call it off of helpers - 'cannot read property loadContract of undefined'
-
 const Helpers = require('./helpers')
 
 global.config = {
@@ -28,10 +21,7 @@ const helpers = new Helpers()
 
 // global.masterContract = helpers.compileContractsAndDeployMasterContract() OLD attempt
 
-// global.masterContract = helpers.compileContractsAndDeployMasterContract1File() // *
-
-// global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract1File()
-// global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract()
+global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
 
 global.balance = helpers.balance
 global.getContract = helpers.getContract.bind(helpers) // TODO getContract1File....
@@ -39,4 +29,5 @@ global.toWei = helpers.toWei
 
 console.log(`....MasterContract was deployed and is available as 'masterContract' global object....\n`)
 
+// Don't need this repl if only deploying master contract... and rest is done from Web App...
 require('repl').start({})
