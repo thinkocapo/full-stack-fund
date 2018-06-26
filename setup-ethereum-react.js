@@ -1,4 +1,14 @@
-const Helpers = require('./helpers')
+/*
+  INSTRUCTIONS (TODO move to README)
+  1. Run 'ganache-cli testrpc' in a new terminal
+  2. node setup-ethereum-react.js
+  3. npm start
+  4. open Chrome Browser and go to localhost:3000
+  5. Read open lotteries, button
+  6. Place Ether Bet...
+*/
+
+const Helpers = require('./cli-app/helpers')
 
 global.config = {
   rpc: {
@@ -19,15 +29,13 @@ global.acct5 = web3.eth.accounts[4]
 
 const helpers = new Helpers()
 
-// global.masterContract = helpers.compileContractsAndDeployMasterContract() OLD attempt
-
 global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
 
+
 global.balance = helpers.balance
-global.getContract = helpers.getContract.bind(helpers) // TODO getContract1File....
+global.getContract = helpers.getContract.bind(helpers) 
 global.toWei = helpers.toWei
 
 console.log(`....MasterContract was deployed and is available as 'masterContract' global object....\n`)
 
-// Don't need this repl if only deploying master contract... and rest is done from Web App...
 require('repl').start({})

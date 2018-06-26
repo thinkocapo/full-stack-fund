@@ -52,10 +52,9 @@ lotteryContract.addActivePlayer(
     {from: acct2, gas: 4612388, gasPrice: 5, value: wei }
 );
 
-// 2nd CHECK - one player lost ether, and the other now has more than they started with
-// Player 1 is hardcoded as the MasterOwner so he'll receive a fee that the contestants pay, for entering the lottery
-'player 2 wins (random winner is hard-coded for now...'
-'player 1 lost their bet but still received a "house fee" because they\'re the owner/creator of this app'
+// 2nd CHECK - one player lost ether, and the other player now has more than they started with
+// player 2 wins (random winner is hard-coded for now...'
+// player 1 lost their bet but still received a "house fee" because they\'re the owner/creator of this app'
 balance(acct1);
 balance(acct2);
 'account starting balance was: 100'
