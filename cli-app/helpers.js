@@ -74,7 +74,9 @@ module.exports = class Helpers {
         gas: gasEstimate,
         gasPrice: 5
         // value: web3.toWei(1, 'ether')
-      }, options), (error, masterContract) => {}) // masterContract.address
+      }, options), (error, masterContract) => {
+        console.log('\nMaster Contract was deployed to testrpc and its ETHEREUM Address:\n', masterContract.address)
+      }) // masterContract.address
       return deployed
     }
   

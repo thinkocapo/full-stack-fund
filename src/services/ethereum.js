@@ -8,6 +8,7 @@ const config = {
         port: "8545"
     }
 }
+let web3js
 // The browser must run ethereum.js because the browser is connected to Metamask
 // If Node runs ethereum.js then it won't find Metamask you run it as a node.js script then .currentProvider won't find the browser
 // startApp()? Have all this precede any React rendering? // use componentWillMount type functions?
@@ -17,7 +18,6 @@ export default class Ethereum {
     // let masterContract = helpers.compileContractsAndDeployMasterContract1File()
     constructor() {
         window.addEventListener('load', function() {
-            let web3js
             if (typeof web3 !== 'undefined') {
                 console.log('CONNECTING TO METAMASK via window.web3.currentProvider...', window.web3.currentProvider)
                 web3js = new web3(window.web3.currentProvider);
@@ -34,7 +34,8 @@ export default class Ethereum {
     placeBet ({ etherBet, numPlayers }) {
         console.log('placeBet...param', {etherBet, numPlayers})
         if (this.validInput(etherBet, numPlayers)) {
-            console.log('call web3...')
+            console.log('call web3...', web3)
+            // ignore the params for now...
             // web3...
         } else { return }
     }
