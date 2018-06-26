@@ -1,26 +1,14 @@
-/*
-
-/$$             /$$     /$$                                                   /$$       /$$          
-| $$            | $$    | $/                                                  | $$      | $$          
-| $$  /$$$$$$  /$$$$$$  |_/   /$$$$$$$        /$$$$$$   /$$$$$$  /$$$$$$/$$$$ | $$$$$$$ | $$  /$$$$$$ 
-| $$ /$$__  $$|_  $$_/       /$$_____/       /$$__  $$ |____  $$| $$_  $$_  $$| $$__  $$| $$ /$$__  $$
-| $$| $$$$$$$$  | $$        |  $$$$$$       | $$  \ $$  /$$$$$$$| $$ \ $$ \ $$| $$  \ $$| $$| $$$$$$$$
-| $$| $$_____/  | $$ /$$     \____  $$      | $$  | $$ /$$__  $$| $$ | $$ | $$| $$  | $$| $$| $$_____/
-| $$|  $$$$$$$  |  $$$$/     /$$$$$$$/      |  $$$$$$$|  $$$$$$$| $$ | $$ | $$| $$$$$$$/| $$|  $$$$$$$
-|__/ \_______/   \___/      |_______/        \____  $$ \_______/|__/ |__/ |__/|_______/ |__/ \_______/
-                                             /$$  \ $$                                                
-                                            |  $$$$$$/                                                
-                                             \______/       
+/*  
     INSTRUCTIONS
-    First run a local ethereum blockchain (ganache-cli testrpc), and Run setup.js
-    Paste these into node.js console, after running setup.js, which starts the node.js repl for you
-    Master Contract was already deployed via setup.js
-
+    First run a local ethereum blockchain (ganache-cli testrpc), and Run setup.js, which starts a Node REPL for you
+    Then paste the below commands into node.js console, after running setup.js
+    These commands will find things like the 'masterContract' variable because setup.js made them available as globals for the REPL
 */
 
-// 1 - Deploy the Lottery Contract
+// 1 - Deploy the Lottery Contract using masterContract.createLottery(...)
 masterContract.address
-const wei = toWei(50)
+const etherBetAmount = 50
+const wei = toWei(etherBetAmount)
 const emitText = 'emit event.watch\n'
 function setEventEmitLogL() {
     var abi = lotteryContract.abi
@@ -41,10 +29,10 @@ function setEventEmitLogM() {
     })
 }
 
-masterContract.createLottery(
-    wei, 2,
-    {from: acct1, gas: 4612388, gasPrice: 5, value: wei }
-)
+const maxPlayers = 2
+
+masterContract.createLottery(wei, maxPlayers, {from: acct1, gas: 4612388, gasPrice: 5, value: wei })
+
 var lotteryAddress = masterContract.getNewLotteryAddress.call();
 var lotteryContract = getContract('Lottery', lotteryAddress);
 
@@ -65,7 +53,12 @@ lotteryContract.addActivePlayer(
 );
 
 // 2nd CHECK - one player lost ether, and the other now has more than they started with
+// Player 1 is hardcoded as the MasterOwner so he'll receive a fee that the contestants pay, for entering the lottery
 balance(acct1);
 balance(acct2);
+'account starting balance: 100'
+'ethereBetAmount: ' + etherBetAmount
+'maxPlayers: ' + maxPlayers
+
 web3.eth.getCode(lotteryAddress) // logs '0x0' if it was selfdestructed
-masterContract.getLotteries.call(); // should log empty [], so lotteryContract no longer exists, its 0x00000
+masterContract.getLotteries.call(); // should log empty [], meaning lotteryContract no longer exists, its 0x00000

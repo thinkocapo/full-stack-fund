@@ -28,7 +28,7 @@ const helpers = new Helpers()
 
 // global.masterContract = helpers.compileContractsAndDeployMasterContract() OLD attempt
 
-// global.masterContract = helpers.compileContractsAndDeployMasterContract1File() // *
+global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
 
 // global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract1File()
 // global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract()
