@@ -65,6 +65,7 @@ module.exports = class Helpers {
       } catch (err) { console.log('ERROR in compilation, no bytecode available')}
 
       var abi = JSON.parse(compiledContract["interface"])
+      console.log('******* ABI *******\n', JSON.stringify(abi, null,4))
       var contract = global.web3.eth.contract(abi)
       var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
 
