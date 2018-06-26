@@ -3,27 +3,20 @@ import { connect } from 'react-redux'
 import Ethereum from './services/ethereum'
 // vs
 // mymethod() // import {mymethod} from './services/ethereum' // export defualt function mymethod () { }
+// Thanks so much!! currentProvider is finally defined as metamask in the browser console. 
+// https://www.reddit.com/r/ethdev/comments/6wdj5q/can_someone_please_post_their_code_for_connecting/
+// window.web3 = new Web3(web3.currentProvider)
+// Detecting Metamask
+// https://github.com/ethereum/wiki/wiki/JavaScript-API#web3currentprovider
+// .givenProvider .currentProvider
 
 
-// this.state = {}
-// this.state = new Ethereum()
 class App extends Component {
+  // MasterContract was already deployed by setup-ethereum-react.js, no need for end user to do this every time they load this webpage
   constructor () {
     super()
+    this.ethereum = new Ethereum() // methods only for interacting with existing contracts
     
-    // Don't need compileContractsAndDeployMasterContract1File() from EthereumService... *
-    // Because that was already performed
-    this.ethereum = new Ethereum()
-    
-    //  Deploy Master Contract using a script because that only gets done once...
-  }
-  web3Ethereum () {
-    // Thanks so much!! currentProvider is finally defined as metamask in the browser console. 
-    // https://www.reddit.com/r/ethdev/comments/6wdj5q/can_someone_please_post_their_code_for_connecting/
-    // window.web3 = new Web3(web3.currentProvider)
-    // Detecting Metamask
-    // https://github.com/ethereum/wiki/wiki/JavaScript-API#web3currentprovider
-    // .givenProvider .currentProvider
   }
 
   render() {
