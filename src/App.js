@@ -48,10 +48,10 @@ class App extends Component {
 
         <div className="row">
           <div className="col-sm-6 bet">
-            <input onChange={this.setEtherBet} name="etherBet" placeholder="ether bet amount" type="bet" className="form-control right-side input-width pull-right" id="bet" ></input>
+            <input onChange={this.setEtherBet} name="etherBet" placeholder="ether bet amount" type="bet" className="form-control center-text input-width pull-right" id="bet" ></input>
           </div>
           <div className="col-sm-6 num-players">
-            <input onChange={this.setNumPlayers} name="numPlayers" placeholder="number of players" type="numplayers" className="form-control input-width" id="numplayers"></input>
+            <input onChange={this.setNumPlayers} name="numPlayers" placeholder="number of players" type="numplayers" className="form-control center-text input-width" id="numplayers"></input>
           </div>
         </div>
 
