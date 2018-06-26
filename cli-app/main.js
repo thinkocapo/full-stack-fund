@@ -54,10 +54,12 @@ lotteryContract.addActivePlayer(
 
 // 2nd CHECK - one player lost ether, and the other now has more than they started with
 // Player 1 is hardcoded as the MasterOwner so he'll receive a fee that the contestants pay, for entering the lottery
+'player 2 wins (random winner is hard-coded for now...'
+'player 1 lost their bet but still received a "house fee" because they\'re the owner/creator of this app'
 balance(acct1);
 balance(acct2);
-'account starting balance: 100'
-'ethereBetAmount: ' + etherBetAmount
+'account starting balance was: 100'
+'ethereBetAmount was: ' + etherBetAmount
 'maxPlayers: ' + maxPlayers
 
 web3.eth.getCode(lotteryAddress) // logs '0x0' if it was selfdestructed
