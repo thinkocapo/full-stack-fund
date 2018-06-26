@@ -4,7 +4,10 @@
   2. node setup-ethereum-react.js
   3. npm start
   4. open Chrome Browser and go to localhost:3000
-  5. Read open lotteries, button
+  5. Read open lotteries, button (these call methods that were called in cli-app/main.js) like...
+  masterContract.createLottery(
+  the Checks 1,2
+  lotteryContract.addActivePlayer
   6. Place Ether Bet...
 */
 
