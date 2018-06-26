@@ -8,7 +8,7 @@
 // 1 - Deploy the Lottery Contract using masterContract.createLottery(...)
 masterContract.address
 const etherBetAmount = 50
-const wei = toWei(etherBetAmount)
+const weiBet = toWei(etherBetAmount)
 const emitText = 'emit event.watch\n'
 function setEventEmitLogL() {
     var abi = lotteryContract.abi
@@ -31,7 +31,7 @@ function setEventEmitLogM() {
 
 const maxPlayers = 2
 
-masterContract.createLottery(wei, maxPlayers, {from: acct1, gas: 4612388, gasPrice: 5, value: wei })
+masterContract.createLottery(weiBet, maxPlayers, {from: acct1, gas: 4612388, gasPrice: 5, value: weiBet })
 
 var lotteryAddress = masterContract.getNewLotteryAddress.call();
 var lotteryContract = getContract('Lottery', lotteryAddress);
@@ -48,8 +48,8 @@ balance(acct2);
 
 // 2 - second player enters lottery, whose max was 2 players, so this ends the lottery and pays out a winner
 lotteryContract.addActivePlayer(
-    acct2, wei, 
-    {from: acct2, gas: 4612388, gasPrice: 5, value: wei }
+    acct2, weiBet, 
+    {from: acct2, gas: 4612388, gasPrice: 5, value: weiBet }
 );
 
 // 2nd CHECK - one player lost ether, and the other player now has more than they started with

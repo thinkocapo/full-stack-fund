@@ -13,32 +13,55 @@
 
 const Helpers = require('./cli-app/helpers')
 
-global.config = {
+const config = {
   rpc: {
     host: "localhost",
     port: "8545"
   }
 }
-global.solc = require("solc")
-global.fs = require("fs")
-global.Web3 = require("web3")
-global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
+const solc = require("solc")
+const fs = require("fs")
+const Web3 = require("web3")
+const web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
 
-global.acct1 = web3.eth.accounts[0]
-global.acct2 = web3.eth.accounts[1]
-global.acct3 = web3.eth.accounts[2]
-global.acct4 = web3.eth.accounts[3]
-global.acct5 = web3.eth.accounts[4]
+// not using accounts whose privateKeys controlled by our geth node...
+// will use account whose privateKey is controlled by Metamask...
+// acct1 = web3.eth.accounts[0]
+// acct2 = web3.eth.accounts[1]
+// acct3 = web3.eth.accounts[2]
+// acct4 = web3.eth.accounts[3]
+// acct5 = web3.eth.accounts[4]
 
 const helpers = new Helpers()
 
-global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
+helpers.compileContractsAndDeployMasterContract1File()
+
+console.log(`MasterContract was deployed to ganache-cli testrpc....\n`)
+console.log(`run the command 'npm start' to start react-app and create lotteries, place bets....\n`)
 
 
-global.balance = helpers.balance
-global.getContract = helpers.getContract.bind(helpers) 
-global.toWei = helpers.toWei
+// global.config = {
+//   rpc: {
+//     host: "localhost",
+//     port: "8545"
+//   }
+// }
+// global.solc = require("solc")
+// global.fs = require("fs")
+// global.Web3 = require("web3")
+// global.web3 = new Web3(new Web3.providers.HttpProvider(`http://${global.config.rpc.host}:${global.config.rpc.port}`))
 
-console.log(`....MasterContract was deployed and is available as 'masterContract' global object....\n`)
+// global.acct1 = web3.eth.accounts[0]
+// global.acct2 = web3.eth.accounts[1]
+// global.acct3 = web3.eth.accounts[2]
+// global.acct4 = web3.eth.accounts[3]
+// global.acct5 = web3.eth.accounts[4]
 
-require('repl').start({})
+// global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
+
+// global.balance = helpers.balance
+// global.getContract = helpers.getContract.bind(helpers) 
+// global.toWei = helpers.toWei
+
+
+// require('repl').start({})
