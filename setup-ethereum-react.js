@@ -1,8 +1,8 @@
 /*
   INSTRUCTIONS (TODO move to README)
   1. Run 'ganache-cli testrpc' in a new terminal
-  2. node setup-ethereum-react.js // outputs Master Contract address
-  2. Ethereum address of the deployed Master Contract is logged as output, you'll need this value... TODO
+  2. node setup-ethereum-react.js
+  2. Master Contract is deployed and its ethereum address is logged as output
   3. npm start
   4. open Chrome Browser and go to localhost:3000
   5. Read open lotteries, button (these call methods that were called in cli-app/main.js) like...
