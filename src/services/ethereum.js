@@ -9,6 +9,7 @@ const config = {
     }
 }
 let web3js
+
 // The browser must run ethereum.js because the browser is connected to Metamask
 // If Node runs ethereum.js then it won't find Metamask you run it as a node.js script then .currentProvider won't find the browser
 // startApp()? Have all this precede any React rendering? // use componentWillMount type functions?
@@ -28,11 +29,22 @@ export default class Ethereum {
               // Prompt User telling them to get Metamask - modal or set something in redux, have it display from a Component
               // Non of mastercontract/lottery invocations will work, because this geth node doesn't ahve user's private keys innported
             }
-        })
+        })     
+        
+        this.state = {
+            masterContract: '0xf9249d8e68d571a97d107320e0ccce38c048d0d0'
+        }
     }
+
+    // TODO Response from a Back-end will have a Master Contract Address e.g. 0xf9249d8e68d571a97d107320e0ccce38c048d0d0
+    componentWillUpdate() {
+        console.log('componentWillUpdate...')
+    }
+    // masterContract = '0xf9249d8e68d571a97d107320e0ccce38c048d0d0'
 
     placeBet ({ etherBet, numPlayers }) {
         console.log('placeBet...param', {etherBet, numPlayers})
+        console.log('masterContract address...', this.state.masterContract) // or entire contract provided in response? NO, should only give address, and to a CALL to get it...
         if (this.validInput(etherBet, numPlayers)) {
             console.log('call web3...', web3)
             // ignore the params for now...

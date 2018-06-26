@@ -1,7 +1,7 @@
 /*
   INSTRUCTIONS (TODO move to README)
   1. Run 'ganache-cli testrpc' in a new terminal
-  2. node setup-ethereum-react.js
+  2. node setup-ethereum-react.js // outputs Master Contract address
   2. Ethereum address of the deployed Master Contract is logged as output, you'll need this value... TODO
   3. npm start
   4. open Chrome Browser and go to localhost:3000
