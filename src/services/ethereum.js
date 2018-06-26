@@ -19,7 +19,7 @@ export default class Ethereum {
         window.addEventListener('load', function() {
             let web3js
             if (typeof web3 !== 'undefined') {
-                console.log('window.web3.currentProvider', window.web3.currentProvider)
+                console.log('CONNECTING TO METAMASK via window.web3.currentProvider...', window.web3.currentProvider)
                 web3js = new web3(window.web3.currentProvider);
             } else {
               // fallback() - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail) * but localnode/hosted node won't have user's private keys, so this line is only for dev testing?
@@ -31,8 +31,12 @@ export default class Ethereum {
         })
     }
 
-    mymethod () {
-        console.log('mymethod was called!')
+    placeBet ({ etherBet, numPlayers }) {
+        console.log('placeBet...param', {etherBet, numPlayers})
+        if (this.validInput(etherBet, numPlayers)) {
+            console.log('call web3...')
+            // web3...
+        } else { return }
     }
 
     balance (contract) {
@@ -49,6 +53,10 @@ export default class Ethereum {
             break
         }
       }
+
+    validInput (etherBet, numPlayers) {
+        return typeof etherBet === 'number' && typeof numPlayers === 'number' && etherBet > 0 && numPlayers > 0 && numPlayers % 1 === 0
+    }
     
     /**
      * Multiple contracts referencing each other...So must compile them together

@@ -1,14 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import Ethereum from './services/ethereum'
-// vs
-// mymethod() // import {mymethod} from './services/ethereum' // export defualt function mymethod () { }
-// Thanks so much!! currentProvider is finally defined as metamask in the browser console. 
-// https://www.reddit.com/r/ethdev/comments/6wdj5q/can_someone_please_post_their_code_for_connecting/
-// window.web3 = new Web3(web3.currentProvider)
-// Detecting Metamask
-// https://github.com/ethereum/wiki/wiki/JavaScript-API#web3currentprovider
-// .givenProvider .currentProvider
+// import { placeBet } from './services/ethereum' // export defualt function mymethod () { }
 
 
 class App extends Component {
@@ -27,18 +20,18 @@ class App extends Component {
 
   placeBet(domEvent) {
     const { etherBet, numPlayers } = this.state
-    console.log('GAMBLE...', { etherBet, numPlayers })
+    this.ethereum.placeBet({ etherBet, numPlayers })
   }
 
   // TODO validation of user inputs
   // onClick()
   setEtherBet(domEvent) {
     const ether = domEvent.target.value
-    this.state.etherBet = ether
+    this.state.etherBet = Number(ether)
   }
   setNumPlayers(domEvent) {
     const numPlayers = domEvent.target.value
-    this.state.numPlayers = numPlayers
+    this.state.numPlayers = Number(numPlayers)
   }
 
   render() {
