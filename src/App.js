@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import Ethereum from './lib/ethereum'
+import Ethereum from './lib/ethereum/connection'
 // import { placeBet } from './services/ethereum' // export defualt function mymethod () { }
 
 
