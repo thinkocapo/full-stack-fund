@@ -1,11 +1,15 @@
-// try module.exports = class Ethereum {  
 import web3 from 'web3'
 import MasterContract from './MasterContract.json'
 
 let web3js
 let web3jsX = new web3(new web3.providers.HttpProvider("http://localhost:8545"));
-// The browser must run ethereum.js because the browser is connected to Metamask
-// If Node runs ethereum.js then it won't find Metamask you run it as a node.js script then .currentProvider won't find the browser
+/*
+    The browser must run ethereum.js because the browser is connected to Metamask
+    If Node runs ethereum.js then it won't find Metamask you run it as a node.js script then .currentProvider won't find the browser
+    Response from a Back-end will have a Master Contract Address e.g. 0xf9249d8e68d571a97d107320e0ccce38c048d0d0
+    consider re-factoring w/ module.exports = class Ethereum {  
+    TODO Move placeBet to user-methods.js
+*/
 export default class Ethereum {
     constructor() {
         const self = this
@@ -20,8 +24,7 @@ export default class Ethereum {
             } else {
               console.log('constructor web3js no metamask...fallback', web3js)
               web3js = new web3(new web3.providers.HttpProvider("http://localhost:8545"));
-              // Prompt User telling them to get Metamask - modal or set something in redux, have it display from a Component // None of mastercontract/lottery invocations will work, because this geth node doesn't ahve user's private keys innported
-              // this.setMasterContract()...
+              // TODO Prompt User telling them to get Metamask - modal or set something in redux, have it display from a Component // None of mastercontract/lottery invocations will work, because this geth node doesn't ahve user's private keys innported
             }
             return web3js
         }) 
@@ -43,28 +46,24 @@ export default class Ethereum {
         let Contract = web3js.eth.contract(MasterContract.abi)
         var contract = Contract.at(this.state.MasterContractAddress) 
         
-        console.log('MASTERCONTRACT retrieved and set and it is...contract', contract)
-        console.log('MASTERCONTRACT retrieved and set and it is...address', contract.address) // NULL
+        console.log('MASTERCONTRACT retrieved and set and it is...address', contract.address)
 
-        // TEST RANDOM WEB3 METHODS...
-        web3js.eth.getAccounts(function (err, res) {
-            console.log('....RES', res) // gets address account from Metamask
-        })
+        // WEB3 TEST
+        // web3js.eth.getAccounts(function (err, res) {
+        //     console.log('....RES', res) // gets address account from Metamask
+        // })
 
+        // TODO
         // contract.createLottery(1, 10, { gas: 4612388, gasPrice: 5, value: 100000000000 }) // errors, "invalid address"
         return contract
     }
     
-    // TODO Response from a Back-end will have a Master Contract Address e.g. 0xf9249d8e68d571a97d107320e0ccce38c048d0d0
-    
-    // TODO move to user-methods.js
     placeBet ({ etherBet, numPlayers }) {
         console.log('placeBet...param', {etherBet, numPlayers})
-        console.log('masterContractAaddress...', this.state.masterContractAddress) // or entire contract provided in response? NO, should only give address, and to a CALL to get it...
+        console.log('masterContractAaddress...', this.state.masterContractAddress)
         if (this.validInput(etherBet, numPlayers)) {
             console.log('call web3...', web3)
-            // ignore the params for now...
-            // MasterContract on state, call it?
+            // Call MasterContract and/or Lottery Contract methods from here
         } else { return }
     }
 
@@ -82,8 +81,6 @@ export default class Ethereum {
             break
         }
     }
-
-    // toWei (E) { return global.web3.toWei(E, 'ether') }
 
     validInput (etherBet, numPlayers) {
         return typeof etherBet === 'number' && typeof numPlayers === 'number' && etherBet > 0 && numPlayers > 0 && numPlayers % 1 === 0
