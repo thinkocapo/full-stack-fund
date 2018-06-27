@@ -3,28 +3,27 @@ import { connect } from 'react-redux'
 import Ethereum from './libs/ethereum/connection'
 // import { placeBet } from './services/ethereum' // export defualt function mymethod () { }
 
-
+/*
+  MasterContract was already deployed by setup-ethereum-react.js, no need for end user to do this every time they load this webpage
+  Ethereum Class is methods only for interacting with existing contracts
+*/
 class App extends Component {
-  // MasterContract was already deployed by setup-ethereum-react.js, no need for end user to do this every time they load this webpage
   constructor () {
     super()
     this.state = {
       etherBet: '',
       numPlayers: ''
     }
-    this.ethereum = new Ethereum() // methods only for interacting with existing contracts
+    this.ethereum = new Ethereum()
     this.placeBet = this.placeBet.bind(this)
     this.setEtherBet = this.setEtherBet.bind(this)
     this.setNumPlayers = this.setNumPlayers.bind(this)
   }
 
-  placeBet(domEvent) {
+  placeBet() {
     const { etherBet, numPlayers } = this.state
     this.ethereum.placeBet({ etherBet, numPlayers })
   }
-
-  // TODO validation of user inputs
-  // onClick()
   setEtherBet(domEvent) {
     const ether = domEvent.target.value
     this.state.etherBet = Number(ether)

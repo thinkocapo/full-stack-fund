@@ -1,16 +1,16 @@
 // try module.exports = class Ethereum {  
 import web3 from 'web3'
 import MasterContract from './MasterContract.json'
-console.log('MASTERCONTRACT INTERFACE ABI...', MasterContract.abi)
 
 let web3js
+let web3jsX = new web3(new web3.providers.HttpProvider("http://localhost:8545"));
 // The browser must run ethereum.js because the browser is connected to Metamask
 // If Node runs ethereum.js then it won't find Metamask you run it as a node.js script then .currentProvider won't find the browser
 export default class Ethereum {
     constructor() {
         const self = this
         this.state = {
-            masterContractAddress: '0xb92c3bb14d63c5c7240c9ce87caf1c85d91a90cd'
+            masterContractAddress: '0x545a001dc66ecd175aa26f124b89881849e1e181'
         }
         window.addEventListener('load', function() {
             if (typeof web3 !== 'undefined') {
@@ -35,20 +35,27 @@ export default class Ethereum {
         var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"]) // NO, rather, import it from .json file
     */
     setMasterContract () {
-        console.log('state masterContract address......', this.state)
+        console.log('masterContract address......', this.state.masterContractAddress)
+        console.log('masterContract abi......', MasterContract.abi)
+
+        console.log('WEB3 JS ', web3js)
+
         let Contract = web3js.eth.contract(MasterContract.abi)
         var contract = Contract.at(this.state.MasterContractAddress) 
         
-        console.log('MASTERCONTRACT retrieved and set and it is...', contract) // contract.address NULL
-        // maybe the ABI being passed in is incorrect?
+        console.log('MASTERCONTRACT retrieved and set and it is...contract', contract)
+        console.log('MASTERCONTRACT retrieved and set and it is...address', contract.address) // NULL
+
+        // TEST RANDOM WEB3 METHODS...
+        web3js.eth.getAccounts(function (err, res) {
+            console.log('....RES', res) // gets address account from Metamask
+        })
 
         // contract.createLottery(1, 10, { gas: 4612388, gasPrice: 5, value: 100000000000 }) // errors, "invalid address"
-        // set it on state???
         return contract
     }
     
     // TODO Response from a Back-end will have a Master Contract Address e.g. 0xf9249d8e68d571a97d107320e0ccce38c048d0d0
-    // No JSX rendering, so don't use React Components (neither Dumb nor Smart Components)
     
     // TODO move to user-methods.js
     placeBet ({ etherBet, numPlayers }) {

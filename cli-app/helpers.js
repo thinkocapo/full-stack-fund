@@ -60,12 +60,12 @@ module.exports = class Helpers {
       try {
         compiled = solc.compile(source);
         compiledContract = compiled["contracts"][`:Master`]
-        // console.log('....compiled MasterContract.sol 1File....', compiledContract)
         bytecode = compiledContract["bytecode"]
       } catch (err) { console.log('ERROR in compilation, no bytecode available')}
-
+      
       var abi = JSON.parse(compiledContract["interface"])
-      console.log('******* ABI *******\n', JSON.stringify(abi, null,4))
+      console.log('.... ABI ....', JSON.stringify(abi,null,4))
+
       var contract = global.web3.eth.contract(abi)
       var gasEstimate = global.web3.eth.estimateGas({ data: bytecode })
 
@@ -87,6 +87,7 @@ module.exports = class Helpers {
       var source = this.loadContract(contractName)
       var compiled = solc.compile(source)
       var abi = JSON.parse(compiled["contracts"][`:${contractName}`]["interface"])
+      console.log('****** GET CONTRACT ******* ABI\n', JSON.stringify(abi,null,4))
       var Contract = global.web3.eth.contract(abi)
       var contract = Contract.at(address)
       return contract

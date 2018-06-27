@@ -34,7 +34,7 @@ global.masterContract = helpers.compileContractsAndDeployMasterContract1File()
 // global.coinFlipOracleContract = helpers.compileAndDeployCoinFlipOracleContract()
 
 global.balance = helpers.balance
-global.getContract = helpers.getContract.bind(helpers) // TODO getContract1File....
+global.getContract = helpers.getContract.bind(helpers) // TODO getContract1File....?
 global.toWei = helpers.toWei
 
 console.log(`....MasterContract was deployed and is available as 'masterContract' global object....\n`)
