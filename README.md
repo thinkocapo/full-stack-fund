@@ -13,7 +13,7 @@
 - Needs getter methods for viewing what lotteries are currently open
 - Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
 
-**Read This** There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses web3.js in Node to call an ethereum node and the smart contracts. There is a React.js app which uses web3.js connects directly to a ethereum node, it only uses Node/web3 for initial setup of the Master Contract.
+**Read This Note** - There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses web3.js in Node to call an ethereum node and the smart contracts. There is a React.js app which uses web3.js connects directly to a ethereum node, it only uses Node/web3 for initial setup of the Master Contract.
 
 ## CLI App
 ### Instructions
