@@ -13,7 +13,7 @@
 - Needs getter methods for viewing what lotteries are currently open
 - Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
 
-**Read This Note** - There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses web3.js in Node to call an ethereum node and the smart contracts. There is a React.js app which uses web3.js connects directly to a ethereum node, it only uses Node/web3 for initial setup of the Master Contract.
+**Read This Note** - There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses web3.js and a [Node REPL](https://nodejs.org/api/repl.html) to call an ethereum node and the smart contracts. There is a React.js app which uses web3.js connects directly to a ethereum node, it only uses Node/web3 for initial setup of the Master Contract.
 
 ## CLI App
 ### Instructions
@@ -25,9 +25,9 @@ npm install
 1. `ganache-cli testrpc`
 2. open a new terminal and `cd ~/your-path/full-stack-fund/cli-app`
 2. `node setup-cli-original.js`
-3. copy the sets of commands from main.js and paste into the Node repl from setup.js
+3. copy the sets of commands from `main.js` and paste into the Node REPL initialized by `setup-cli-original.js`
 4. Verify each set is giving you the expected output. They're labelled as 'Checks'. This could be re-written as a Test.
-5. Use [tmux](https://github.com/tmux/tmux) and `/cli-app/ethereum.sh` if you want to streamline this and do development.
+5. Use [tmux](https://github.com/tmux/tmux) and `/cli-app/ethereum.sh` if you want to streamline your dev setup.
 
 ### What's Happening & Gameplay Explained
 1. `ganache-cli testrpc` - starts a ethereum blockchain running locally on localhost:8545
@@ -42,7 +42,7 @@ This app's files are in `/src` and you'll also run `/setup-ethereum-react` once 
 1. Download [Metamask](https://metamask.io/) Chrome Extension.
 2. Run `ganache-cli testrpc` in a new terminal
 3. `node setup-ethereum-react.js` - this deploys Master Contract and logs its address. Copy/paste this address into App.js state.masterContractAddress. In a Prod setup this MasterContract.address would be supplied by a backend-app.
-4. `npm start` and open `localhost:3000` in a browser with **Metamask**
+4. `npm start` and open `localhost:3000` in a browser with Metamask
 5. IN-DEVELOPMENT: Button for reading open lotteries
 6. Place your ether bet using the fields and 'Place Bet' button
 
