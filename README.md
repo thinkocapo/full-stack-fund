@@ -1,6 +1,6 @@
 # full-stack-fund
 ### How Full Stack Fund Works
-<img src="/img/diagram-gameplay.png" width="300px" height="300px" />
+<img src="/img/diagram-gameplay.png" width="400px" height="400px" />
 
 `fullStackFund.createLottery(5, 1.0)`  
 - Means that user is creating a lottery for 5 people where you have to contribute 1.0 ether to be part of it.  
