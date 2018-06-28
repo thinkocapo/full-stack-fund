@@ -30,21 +30,21 @@ npm install
 5. Use [tmux](https://github.com/tmux/tmux) and `/cli-app/ethereum.sh` if you want to streamline this and do development.
 
 ### What's Happening & Gameplay Explained
-1. Download [Metamask](https://metamask.io/) Chrome Extension.
-2. `ganache-cli testrpc` - starts a ethereum blockchain running locally on localhost:8545
-3. `node setup-cli-original.js` - deploys MasterContract.sol and loads test accounts into the blockchain, starts a Node REPL, and sets some helper functions
-4. These these commands interact with the MasterContract, create a lottery and add players to the lottery
+1. `ganache-cli testrpc` - starts a ethereum blockchain running locally on localhost:8545
+2. `node setup-cli-original.js` - deploys MasterContract.sol and loads test accounts into the blockchain, starts a Node REPL, and sets some helper functions
+3. These these commands interact with the MasterContract, create a lottery and add players to the lottery
 
 MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. This is the max so it pays out, and house collects its fee.
 
 ## React.js App
 ### Instructions
 This app's files are in `/src` and you'll also run `/setup-ethereum-react` once using node, to deploy MasterContract. This only needs to be done once, similar to how a Token Issuing is only done once. End users will interact with the MasterContract after that, using the React app rendered in their browser.
-1. Run `ganache-cli testrpc` in a new terminal
-2. `node setup-ethereum-react.js` - this deploys Master Contract and logs its address. Copy/paste this address into App.js state.masterContractAddress. In a Prod setup this MasterContract.address would be supplied by a backend-app.
-3. `npm start` and open `localhost:3000` in a browser with **Metamask**
-4. IN-DEVELOPMENT: Button for reading open lotteries
-5. Place your ether bet using the fields and 'Place Bet' button
+1. Download [Metamask](https://metamask.io/) Chrome Extension.
+2. Run `ganache-cli testrpc` in a new terminal
+3. `node setup-ethereum-react.js` - this deploys Master Contract and logs its address. Copy/paste this address into App.js state.masterContractAddress. In a Prod setup this MasterContract.address would be supplied by a backend-app.
+4. `npm start` and open `localhost:3000` in a browser with **Metamask**
+5. IN-DEVELOPMENT: Button for reading open lotteries
+6. Place your ether bet using the fields and 'Place Bet' button
 
 ## Other
 ### Example of Emit Event
