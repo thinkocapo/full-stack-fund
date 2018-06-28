@@ -13,7 +13,7 @@
 - Needs getter methods for viewing what lotteries are currently open
 - Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
 
-**There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it runs in Node. There is a React.js app which connects directly to a ethereum node, it does not use node.js**
+**There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it runs in Node and calls an ethereum node. There is a React.js app which connects directly to a ethereum node, it does not use node.js**
 
 ### CLI App - Instructions
 This app is in `/cli-app`
