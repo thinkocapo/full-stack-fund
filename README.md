@@ -1,7 +1,8 @@
 # full-stack-fund
 ### How Full Stack Fund Works
+<img src="/img/app-homescreen.png" width="500px" height="350px" />
 <img src="/img/diagram-gameplay.png" width="550px" height="450px" />
-<img src="/img/app-homescreen.png" width="450px" height="350px" />
+
 `fullStackFund.createLottery(5, 1.0)`  
 - Means that user is creating a lottery for 5 people where you have to contribute 1.0 ether to be part of it.  
 - If another user tries to .createLottery(5, 1.0) then they will be simply added to the existing (5, 1.0) lottery which is open, so it will become 2/5 full.  
