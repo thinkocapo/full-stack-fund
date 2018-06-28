@@ -15,7 +15,8 @@
 
 **There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses Node to call an ethereum node and the smart contracts. There is a React.js app which connects directly to a ethereum node, it only uses Node for initial setup of the Master Contract**
 
-### CLI App - Instructions
+## CLI App
+### Instructions
 This app's files are in `/cli-app`
 ```
 git clone https://github.com/thinkocapo/full-stack-fund.git
@@ -27,14 +28,15 @@ npm install
 3. copy the sets of commands from main.js and paste into the Node repl from setup.js
 4. Verify each set is giving you the expected output
 
-### CLI App - What's Happening & Gameplay Explained
+### What's Happening & Gameplay Explained
 1. ganache-cli testrpc - starts a ethereum blockchain running locally on localhost:8545
 2. node setup.js - deploys MasterContract.sol and loads test accounts into the blockchain, starts a Node REPL, and sets some helper functions
 3. these these commands interact with the MasterContract, create a lottery and add players to the lottery
 
 MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 ether to the Lottery contract. Then a 2nd user called `addActivePlayer`, which added 1 more ether. So now the Lottery has 2 active players and 2 ether. This is the max so it pays out, and house collects its fee.
 
-### React.js App - Instructions
+## React.js App
+### Instructions
 **Note** - This app is in `/src` and you'll also run `/setup-ethereum-react` once using node, to deploy MasterContract. This only needs to be done once, similar to how a Token Issuing is only done once. End users will interact with the MasterContract after that, using the React app rendered in their browser.
 1. Run 'ganache-cli testrpc' in a new terminal
 2. node setup-ethereum-react.js - this deploys Master Contract and logs its address. Copy/paste this address into App.js state.masterContractAddress. In a Prod setup this would be supplied by a backend-app.
@@ -42,6 +44,7 @@ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 
 4. IN-DEVELOPMENT: Button for reading open lotteries
 5. Place your ether bet using the fields and 'Place Bet' button
 
+## Other
 ### Example of Emit Event
 ```
 // appears in Node console, does not show in your local running blockchain's log
