@@ -13,7 +13,7 @@
 - Needs getter methods for viewing what lotteries are currently open
 - Needs to remove the Lottery from the MasterContract's lottery list, once the lottery is filled and selfdestructs
 
-**There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses Node to call an ethereum node and the smart contracts. There is a React.js app which connects directly to a ethereum node, it only uses Node for initial setup of the Master Contract**
+**Read This** There are 2 Apps in this Repo. There's is a Command-Line App to be run from CLI, it uses web3.js in Node to call an ethereum node and the smart contracts. There is a React.js app which uses web3.js connects directly to a ethereum node, it only uses Node/web3 for initial setup of the Master Contract.
 
 ## CLI App
 ### Instructions
@@ -39,7 +39,7 @@ MasterContract gets deployed, then 1 user deployed a new lottery, which added 1 
 
 ## React.js App
 ### Instructions
-**Note** - This app is in `/src` and you'll also run `/setup-ethereum-react` once using node, to deploy MasterContract. This only needs to be done once, similar to how a Token Issuing is only done once. End users will interact with the MasterContract after that, using the React app rendered in their browser.
+This app's files are in `/src` and you'll also run `/setup-ethereum-react` once using node, to deploy MasterContract. This only needs to be done once, similar to how a Token Issuing is only done once. End users will interact with the MasterContract after that, using the React app rendered in their browser.
 1. Run `ganache-cli testrpc` in a new terminal
 2. `node setup-ethereum-react.js` - this deploys Master Contract and logs its address. Copy/paste this address into App.js state.masterContractAddress. In a Prod setup this MasterContract.address would be supplied by a backend-app.
 3. `npm start` and open `localhost:3000` in a browser with **Metamask**
