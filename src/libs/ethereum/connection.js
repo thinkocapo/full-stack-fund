@@ -47,7 +47,11 @@ export default class Ethereum {
         var contract = Contract.at(this.state.MasterContractAddress) 
         
         console.log('MASTERCONTRACT retrieved and set and it is...address', contract.address)
+        // July 7th, 2018 from Module-9 video...
+        // it does web3 setup, gets contract at 1:43, uses a TruffleContract method... https://courses.consensys.net/courses/course-v1:ConsenSysAcademy+2018DP+1/courseware/4a6d952ddf7e4b14ba1245f58704b388/5fb859602a6147329d5d6c9ac65b622b/?activate_block_id=block-v1%3AConsenSysAcademy%2B2018DP%2B1%2Btype%40sequential%2Bblock%405fb859602a6147329d5d6c9ac65b622b
+        // maybe only call contract.createLottery differently (signed vs unsigned raw tx) and metamask will open and handle it?
 
+        
         // WEB3 TEST
         // web3js.eth.getAccounts(function (err, res) {
         //     console.log('....RES', res) // gets address account from Metamask
